@@ -34,6 +34,19 @@ public class Pit {
         return stoneCount == 0;
     }
 
+    /*
+    // Checks if the pit is full
+    public boolean isFull() {
+        
+        // Returns false if the pit has 4 or more stones
+        if (stoneCount) >= 4)
+            return false;
+        
+        // Returns trues if pit has less than 4 stones
+        return true;
+    }
+    */
+
     //setters
     public void setStoneCount(int stoneCount) {
         this.stoneCount = stoneCount;
@@ -42,4 +55,11 @@ public class Pit {
     public void addStone() {
         this.stoneCount++;
     }
+
+    /*
+    public void removeStone() {
+        this.stoneCount--;
+    }
+    */
+    
 }
