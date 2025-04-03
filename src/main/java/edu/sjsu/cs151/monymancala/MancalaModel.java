@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MancalaModel {
+
+    // private Player aPlayer;
+    // private board board
+    
+    
     private List<Pit> pits;
     private List<ChangeListener> observers;
 
