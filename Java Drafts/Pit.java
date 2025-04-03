@@ -40,6 +40,15 @@ public class Pit {
     public void addStone(Stone aStone) {
         this.pit.add(aStone);
     }
+
+    public void removeStone(Stone stone) {
+        int index = -1;
+        for (Stone aStone : pit) {
+            index++;
+            if (aStone.location == stone.location)
+                pit.remove(index);
+        }
+    }
     
     public int getPitCount() {
         return this.pit.size();
