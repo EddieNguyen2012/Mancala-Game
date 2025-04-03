@@ -16,6 +16,7 @@ package mancalagame;
 public class Stone {
     
     // Variables
+    String location;
     char row;
     int column;
     
@@ -23,6 +24,7 @@ public class Stone {
     Stone(char row, int column) {
         this.row = row;
         this.column = column;
+        this.location = Integer.toString(column) + row;
     }
     
     
