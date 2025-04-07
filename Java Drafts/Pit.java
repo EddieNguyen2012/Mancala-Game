@@ -29,8 +29,8 @@ public class Pit {
         this.location = "";
     }
     
-    Pit(ArrayList<Stone> pit, boolean store) {
-        this.pit = pit;
+    Pit(ArrayList<Stone> stones, boolean store) {
+        this.pit = stones;
         this.store = store;
     }
     
@@ -40,7 +40,16 @@ public class Pit {
     public void addStone(Stone aStone) {
         this.pit.add(aStone);
     }
-
+    
+    public void addInitialStones(ArrayList<Stone> stones, boolean store, String location) {
+        this.pit = stones;
+        this.store = store;
+        this.location = location;
+    }
+    
+    
+    
+    
     public void removeStone(Stone stone) {
         int index = -1;
         for (Stone aStone : pit) {
