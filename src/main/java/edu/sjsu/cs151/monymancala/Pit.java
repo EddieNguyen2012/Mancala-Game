@@ -34,6 +34,12 @@ public class Pit {
         return stoneCount == 0;
     }
 
+    public int getPlayer() {
+        if (this.index <= 7)
+            return 1;
+        else return 2;
+    }
+
     /*
     // Checks if the pit is full
     public boolean isFull() {
