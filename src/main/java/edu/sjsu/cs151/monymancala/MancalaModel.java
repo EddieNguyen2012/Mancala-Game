@@ -3,9 +3,7 @@ package edu.sjsu.cs151.monymancala;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class MancalaModel {
 
@@ -38,6 +36,7 @@ public class MancalaModel {
     private MancalaIIterator iterator;
 
     private int selectedIndex;
+    private List<Pit> lastPit;
 
     private int currentPlayer;
 
@@ -45,6 +44,7 @@ public class MancalaModel {
         pits = new ArrayList<>();
         observers = new ArrayList<>();
         initializeBoard(stonesPerPit);
+
         selectedIndex = 0;
 
         // Initialize iterator
@@ -80,15 +80,31 @@ public class MancalaModel {
 
     private void initializeBoard(int stonesPerPit) {
         for (int i = 0; i < 14; i++) {
-            if (i == 6 || i == 13)
-                pits.add(new Pit("Mancala", i, 0));
-            else
-                pits.add(new Pit("Pit", i, stonesPerPit));
+            switch (i) {
+                case 6: {
+                    pits.add(new Pit("Mancala A", i, 0, 1));
+                    break;
+                }
+                case 13: {
+                    pits.add(new Pit("Mancala B", i, 0, 2));
+                    break;
+                }
+                default:
+                    pits.add(new Pit("Pit", i, stonesPerPit, 0));
+            }
         }
+        backUp();
     }
 
     public Pit getPit(int index) {
         return pits.get(index);
+    }
+
+    public void backUp() {
+        lastPit = new ArrayList<>();
+        for (Pit pit: pits) {
+            lastPit.add(pit.copy());
+        }
     }
 
     /*
@@ -96,6 +112,7 @@ public class MancalaModel {
     */
     public void makeMove(int index) {
         if (isValidMove(index)) {
+            backUp();
             distributeStones(index);
         }
     }
@@ -108,7 +125,7 @@ public class MancalaModel {
             return false;
 
         // Check if the selected pit is a mancala
-        if (selected.getIndex() % 7 == 0) {
+        if (selected.getMancala() != 0) {
             return false;
         }
 
@@ -127,23 +144,36 @@ public class MancalaModel {
         selected.setStoneCount(0);
         for (int i = 1; i < moves; i++) {
             selected = iterator.next();
-            selected.addStone(1);
+            if (selected.getMancala() == 0 || selected.getMancala() == currentPlayer)
+                selected.addStone(1);
+            else{
+                selected = iterator.next();
+                selected.addStone(1);
+            }
+
         }
 
         // Check capture
         selected = iterator.next();
-        if (selected.getPlayer() == currentPlayer && selected.getStoneCount() == 0) {
-            capture(index + moves);
+        if (selected.getMancala() != 0 && selected.getMancala() != currentPlayer){
+            selected = iterator.next();
         }
-        else
+        if (selected.getPlayer() == currentPlayer && selected.getStoneCount() == 0) {
+            capture(selected.getIndex());
+        }
+        else {
             selected.addStone(1);
+        }
     }
 
     // if your last stone lands in an empty pit on your side of the board, you capture both that stone
     // and all stones in the opposite pit on your opponent's side, placing them in your own store
     private void capture(int selectedIndex) {
-        int stones = pits.get(selectedIndex).getStoneCount() + 1;
-        pits.get(selectedIndex).setStoneCount(0);
+        if (pits.get(selectedIndex).getMancala() != 0) {
+            return;
+        }
+        int stones = pits.get(12 - selectedIndex).getStoneCount() + 1;
+        pits.get(12 - selectedIndex).setStoneCount(0);
         if (selectedIndex < 7) {
             pits.get(6).addStone(stones);
         }
@@ -152,7 +182,9 @@ public class MancalaModel {
     }
 
     public void undo() {
-        return;
+        pits = new ArrayList<>(lastPit);
+        backUp();
+//        notifyView();
     }
 
 
@@ -171,8 +203,18 @@ public class MancalaModel {
     }
 
     public void printBoard() {
+        System.out.print("(last pit)\nPlayer 2 pit: ");
+        for (int i = lastPit.size() - 1; i >= 7 ; i--) {
+            System.out.print(lastPit.get(i).getStoneCount() + " ");
+        }
+        System.out.println();
+        System.out.print("Player 1 pit: ");
+        for (int i = 0; i < 7; i++) {
+            System.out.print(lastPit.get(i).getStoneCount() + " ");
+        }
+        System.out.println();
 
-        System.out.print("Player 2 pit: ");
+        System.out.print("(current)\nPlayer 2 pit: ");
         for (int i = pits.size() - 1; i >= 7 ; i--) {
             System.out.print(pits.get(i).getStoneCount() + " ");
         }
@@ -186,14 +228,24 @@ public class MancalaModel {
     public static void main(String[] args) {
         MancalaModel model = new MancalaModel(4);
         model.printBoard();
+        Scanner sc = new Scanner(System.in);
+        int i = 1;
+        System.out.print("Enter new move: ");
+        int index;
+        while (sc.hasNextInt()) {
+            index = sc.nextInt();
+            System.out.println("\nMove " + i + " selected index: " + index);
+            if (index == 20){
+                model.undo();
+                model.printBoard();
+            }
+            else {
+                model.makeMove(index);
+                model.printBoard();
 
-        model.makeMove(2);
-        model.printBoard();
+            }
+            System.out.print("Enter new move: ");
+        }
 
-        model.makeMove(4);
-        model.printBoard();
-
-        model.makeMove(9);
-        model.printBoard();
     }
 }
