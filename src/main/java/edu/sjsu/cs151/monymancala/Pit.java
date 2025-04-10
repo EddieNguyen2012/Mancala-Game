@@ -4,13 +4,13 @@ public class Pit {
     private String pitLocation;
     private int index;
     private int stoneCount;
-    private boolean isMancala;
+//    private boolean isMancala;
 
-    public Pit (String pitLocation, int index, int stoneCount, boolean isMancala) {
+    public Pit (String pitLocation, int index, int stoneCount) {
         this.pitLocation = pitLocation;
         this.index = index;
         this.stoneCount = stoneCount;
-        this.isMancala = isMancala;
+//        this.isMancala = isMancala;
     }
 
     //Getters
@@ -24,10 +24,6 @@ public class Pit {
 
     public int getStoneCount() {
         return stoneCount;
-    }
-
-    public boolean isMancala() {
-        return isMancala;
     }
 
     public boolean isEmpty() {
@@ -58,8 +54,8 @@ public class Pit {
         this.stoneCount = stoneCount;
     }
 
-    public void addStone() {
-        this.stoneCount++;
+    public void addStone(int stones) {
+        this.stoneCount += stones;
     }
 
     /*
