@@ -7,33 +7,10 @@ import java.util.*;
 
 public class MancalaModel {
 
-    interface MancalaIIterator extends Iterator<Pit> {
-        /**
-         * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
-         *
-         * @return {@code true} if the iteration has more elements
-         */
-        @Override
-        boolean hasNext();
-
-        /**
-         * Returns the next element in the iteration.
-         *
-         * @return the next element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
-         */
-        @Override
-        Pit next();
-    }
-    // private Player aPlayer;
-    // private board board
-
     private List<Pit> pits;
     private List<ChangeListener> observers;
 
-    private MancalaIIterator iterator;
+    private MancalaIterator iterator;
 
     private int selectedIndex;
     private List<Pit> lastPit;
@@ -48,7 +25,7 @@ public class MancalaModel {
         selectedIndex = 0;
 
         // Initialize iterator
-        iterator = new MancalaIIterator() {
+        iterator = new MancalaIterator() {
 
             /**
              * Check if current index is not out of bound
@@ -224,28 +201,5 @@ public class MancalaModel {
             System.out.print(pits.get(i).getStoneCount() + " ");
         }
         System.out.println();
-    }
-    public static void main(String[] args) {
-        MancalaModel model = new MancalaModel(4);
-        model.printBoard();
-        Scanner sc = new Scanner(System.in);
-        int i = 1;
-        System.out.print("Enter new move: ");
-        int index;
-        while (sc.hasNextInt()) {
-            index = sc.nextInt();
-            System.out.println("\nMove " + i + " selected index: " + index);
-            if (index == 20){
-                model.undo();
-                model.printBoard();
-            }
-            else {
-                model.makeMove(index);
-                model.printBoard();
-
-            }
-            System.out.print("Enter new move: ");
-        }
-
     }
 }
