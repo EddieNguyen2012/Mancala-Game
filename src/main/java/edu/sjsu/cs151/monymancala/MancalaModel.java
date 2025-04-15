@@ -11,6 +11,7 @@ public class MancalaModel {
     private List<ChangeListener> observers;
 
     private MancalaIterator iterator;
+    private BoardStyle style;
 
     private int selectedIndex;
     private List<Pit> lastPit;
@@ -84,9 +85,6 @@ public class MancalaModel {
         }
     }
 
-    /*
-    TODO: To be implemented at a later date
-    */
     public void makeMove(int index) {
         if (isValidMove(index)) {
             backUp();
@@ -179,27 +177,35 @@ public class MancalaModel {
         }
     }
 
-    public void printBoard() {
-        System.out.print("(last pit)\nPlayer 2 pit: ");
-        for (int i = lastPit.size() - 1; i >= 7 ; i--) {
-            System.out.print(lastPit.get(i).getStoneCount() + " ");
-        }
-        System.out.println();
-        System.out.print("Player 1 pit: ");
-        for (int i = 0; i < 7; i++) {
-            System.out.print(lastPit.get(i).getStoneCount() + " ");
-        }
-        System.out.println();
+//    public void printBoard() {
+//        System.out.print("(last pit)\nPlayer 2 pit: ");
+//        for (int i = lastPit.size() - 1; i >= 7 ; i--) {
+//            System.out.print(lastPit.get(i).getStoneCount() + " ");
+//        }
+//        System.out.println();
+//        System.out.print("Player 1 pit: ");
+//        for (int i = 0; i < 7; i++) {
+//            System.out.print(lastPit.get(i).getStoneCount() + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("(current)\nPlayer 2 pit: ");
+//        for (int i = pits.size() - 1; i >= 7 ; i--) {
+//            System.out.print(pits.get(i).getStoneCount() + " ");
+//        }
+//        System.out.println();
+//        System.out.print("Player 1 pit: ");
+//        for (int i = 0; i < 7; i++) {
+//            System.out.print(pits.get(i).getStoneCount() + " ");
+//        }
+//        System.out.println();
+//    }
 
-        System.out.print("(current)\nPlayer 2 pit: ");
-        for (int i = pits.size() - 1; i >= 7 ; i--) {
-            System.out.print(pits.get(i).getStoneCount() + " ");
-        }
-        System.out.println();
-        System.out.print("Player 1 pit: ");
-        for (int i = 0; i < 7; i++) {
-            System.out.print(pits.get(i).getStoneCount() + " ");
-        }
-        System.out.println();
+    public void setBoardStyle(BoardStyle style){
+        this.style = style;
+    }
+
+    public BoardStyle getStyle(){
+        return style;
     }
 }
