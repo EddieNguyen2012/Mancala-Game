@@ -14,7 +14,33 @@ public class PitComponent extends JPanel {
         setOpaque(false);
         setPreferredSize(PIT_SIZE);
     }
+    
+    
+    private class MouseListeners extends MouseAdapter {
+        
+        @Override
+        public void mouseClicked(MouseEvent event) {
+            // Pit coordinates and area
+            int width = getWidth();
+            int height = getHeight();
+            int x = getX();
+            int y = getY();
 
+            // Getting mouse click coordinates
+            mousePoint = event.getPoint(); 
+            
+            // If the user clicks within the boundaries of a pit
+            if ( x <= mousePoint.getX() && mousePoint.getX() <= x + width && y <= mousePoint.getY() && mousePoint.getY() <= y + height) {
+
+                // Pit is selected 
+                pit.selectPit(true);                
+            }
+            
+            repaint();
+        }
+    }
+
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
