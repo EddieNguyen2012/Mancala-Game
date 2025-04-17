@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PitComponent extends JPanel {
+    private Point mousePoint;
     private final Pit pit;
     private BoardStyle style;
     private static final Dimension PIT_SIZE = new Dimension(60, 120);
@@ -13,6 +14,9 @@ public class PitComponent extends JPanel {
         this.style = style;
         setOpaque(false);
         setPreferredSize(PIT_SIZE);
+        MouseListeners listeners = new MouseListeners();
+        addMouseListener(listeners);
+        addMouseMotionListener(listeners);
     }
     
     
