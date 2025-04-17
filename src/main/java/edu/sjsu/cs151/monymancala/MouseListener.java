@@ -4,7 +4,7 @@
  *
  *
  */
-package mancalagame;
+package edu.sjsu.cs151.monymancala;
 
 import java.awt.event.*;
 import java.util.EventListener;
