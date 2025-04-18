@@ -10,6 +10,7 @@ public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
     private BoardStyle style;
     private PitComponent selectedPit = null; // To keep track of the selected pit component
+    private JFrame welcomeFrame;
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -19,6 +20,9 @@ public class MancalaView extends JFrame implements ChangeListener {
     private ArrayList<JComponent> componentList;
 
     public MancalaView(MancalaModel model) {
+        // Welcome Window
+        welcomeWindow();
+        
         this.model = model;
         this.style = model.getStyle();
 
@@ -46,7 +50,48 @@ public class MancalaView extends JFrame implements ChangeListener {
         add(eastPanel, BorderLayout.EAST);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        setLocationRelativeTo(null);
+    }
+
+    private void welcomeWindow() {
+        
+        // Create a frame
+        welcomeFrame = new JFrame("Welcome to the Mancala Game App"); // border layout is default
+        welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        welcomeFrame.setSize(1200, 800);
+        welcomeFrame.setLayout(new BorderLayout());
+        
+         // Load the image "MancalaBackground.jpg"
+        ImagePanel imagePanel = new ImagePanel("MancalaBackground.jpg");
+        imagePanel.setBounds(0, 0, 1200, 800);
+        
+        // Creating the buttons
+        JButton style1Button = new JButton("Style 1");
+        // Set button size
+        style1Button.setPreferredSize(new Dimension(150, 50));
+        style1Button.addActionListener(e -> style1ButtonActionPerformed());
+        
+        JButton style2Button = new JButton("Style 2");
+        style2Button.addActionListener(e -> style2ButtonActionPerformed());
+        // Set button size
+        style2Button.setPreferredSize(new Dimension(150, 50));
+        style2Button.addActionListener(e -> style1ButtonActionPerformed());
+        
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(new JLabel("Select Board Style: "));
+        buttonPanel.add(style1Button);
+        buttonPanel.add(style2Button);
+        buttonPanel.setOpaque(false); // Make the button panel transparent
+        
+        // Adjusting the welcome frame size and position
+        welcomeFrame.add(imagePanel, BorderLayout.CENTER);
+        welcomeFrame.add(buttonPanel, BorderLayout.SOUTH);
+        welcomeFrame.setLocationRelativeTo(null);
+        welcomeFrame.setVisible(true);
+        welcomeFrame.revalidate();
+        welcomeFrame.repaint();        
     }
 
     private void buildCenterPanel() {
@@ -131,6 +176,23 @@ public class MancalaView extends JFrame implements ChangeListener {
         selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
         pitPanel.repaint();
     }
+
+    // Updates the image in the Welcome Frame
+    class ImagePanel extends JPanel {
+        private Image welcomeImage;
+
+        public ImagePanel(String imagePath) {
+            // Load the image
+            welcomeImage = new ImageIcon(imagePath).getImage();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Draw the image scaled to the size of the panel
+            g.drawImage(welcomeImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
     
     @Override
     public void stateChanged(ChangeEvent e) {
@@ -141,5 +203,17 @@ public class MancalaView extends JFrame implements ChangeListener {
         for(JComponent component : componentList) {
             component.repaint();
         }
+    }
+    // Button Actions
+    private void style1ButtonActionPerformed() {
+        this.model.setBoardStyle(style);
+        welcomeFrame.dispose();
+        setVisible(true);
+    }
+    
+    private void style2ButtonActionPerformed() {
+        this.model.setBoardStyle(style);
+        welcomeFrame.dispose();
+        setVisible(true);
     }
 }
