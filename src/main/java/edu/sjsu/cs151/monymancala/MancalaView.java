@@ -67,6 +67,12 @@ public class MancalaView extends JFrame implements ChangeListener {
         //Pit panels between the labels
         pitPanel = new JPanel();
         pitPanel.setLayout(new GridLayout(2, 6, 10, 10));
+        pitPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectPanel(pitPanel);
+            }
+        });
 
         //Player B's row of pits
         for(int i = 12; i >= 7; i--){
@@ -106,7 +112,20 @@ public class MancalaView extends JFrame implements ChangeListener {
         eastPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
+    
+    private void selectPanel(JPanel panel) {
+        // Deselect the previously selected panel
+        if (selectedPanel != null) {
+            selectedPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));       // Reset border
+            selectedPanel.setBackground(Color.LIGHT_GRAY);                              // Reset background color
+        }
 
+        // Select the current panel
+        selectedPanel = panel;
+        selectedPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
+        pitPanel.repaint();
+    }
+    
     @Override
     public void stateChanged(ChangeEvent e) {
         updateView();
