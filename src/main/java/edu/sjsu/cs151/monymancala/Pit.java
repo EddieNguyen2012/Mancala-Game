@@ -12,7 +12,6 @@ public class Pit {
         this.index = index;
         this.stoneCount = stoneCount;
         this.mancala = mancala;
-        this.selected = false;
     }
 
     //Getters
