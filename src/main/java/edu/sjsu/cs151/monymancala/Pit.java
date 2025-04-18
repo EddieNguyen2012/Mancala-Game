@@ -4,7 +4,6 @@ public class Pit {
     private String pitLocation;
     private int index;
     private int stoneCount;
-    private boolean selected;
 
     private final int mancala; // 0 if not mancala, 1 if pit is mancala of player 1, 2 if pit is mancala of player 2
 
@@ -42,14 +41,7 @@ public class Pit {
             return 1;
         else return 2;
     }
-    
-    public boolean isSelected() {
-        return this.selected;
-    }
-    
-    public void selectPit(boolean flag) {
-        selected = flag;
-    }
+
 
     /*
     // Checks if the pit is full
