@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
     private BoardStyle style;
-    private JPanel selectedPitPanel = null; // To keep track of the selected panel
+    private PitComponent selectedPit = null; // To keep track of the selected pit component
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -68,18 +68,18 @@ public class MancalaView extends JFrame implements ChangeListener {
         //Pit panels between the labels
         pitPanel = new JPanel();
         pitPanel.setLayout(new GridLayout(2, 6, 10, 10));
-        pitPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectPanel(pitPanel);
-            }
-        });
 
         //Player B's row of pits
         for(int i = 12; i >= 7; i--){
             Pit pit = model.getPit(i);
             PitComponent pitComponent = new PitComponent(pit, style);
             componentList.add(pitComponent);
+            pitComponent.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    selectPit(pitComponent);
+                }
+            });
             pitPanel.add(pitComponent);
         }
 
@@ -88,6 +88,12 @@ public class MancalaView extends JFrame implements ChangeListener {
             Pit pit = model.getPit(i);
             PitComponent pitComponent = new PitComponent(pit, style);
             componentList.add(pitComponent);
+            pitComponent.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    selectPit(pitComponent);
+                }
+            });
             pitPanel.add(pitComponent);
         }
 
@@ -114,16 +120,15 @@ public class MancalaView extends JFrame implements ChangeListener {
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
     
-    private void selectPanel(JPanel panel) {
+    private void selectPit(PitComponent aPit) {
         // Deselect the previously selected panel
-        if (selectedPitPanel != null) {
-            selectedPitPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));       // Reset border
-            selectedPitPanel.setBackground(Color.LIGHT_GRAY);                              // Reset background color
+        if (selectedPit != null) {
+            selectedPit.setBorder(BorderFactory.createLineBorder(Color.BLACK));       // Reset border
         }
 
         // Select the current panel
-        selectedPitPanel = panel;
-        selectedPitPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
+        selectedPit = aPit;
+        selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
         pitPanel.repaint();
     }
     
