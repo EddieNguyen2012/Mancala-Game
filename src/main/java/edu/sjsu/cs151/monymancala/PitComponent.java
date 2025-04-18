@@ -13,9 +13,6 @@ public class PitComponent extends JPanel {
         this.style = style;
         setOpaque(false);
         setPreferredSize(PIT_SIZE);
-        MouseListeners listeners = new MouseListeners();
-        addMouseListener(listeners);
-        addMouseMotionListener(listeners);
     }
 
     
