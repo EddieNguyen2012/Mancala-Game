@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PitComponent extends JPanel {
-    private Point mousePoint;
     private final Pit pit;
     private BoardStyle style;
     private static final Dimension PIT_SIZE = new Dimension(60, 120);
@@ -17,31 +16,6 @@ public class PitComponent extends JPanel {
         MouseListeners listeners = new MouseListeners();
         addMouseListener(listeners);
         addMouseMotionListener(listeners);
-    }
-    
-    
-    private class MouseListeners extends MouseAdapter {
-        
-        @Override
-        public void mouseClicked(MouseEvent event) {
-            // Pit coordinates and area
-            int width = getWidth();
-            int height = getHeight();
-            int x = getX();
-            int y = getY();
-
-            // Getting mouse click coordinates
-            mousePoint = event.getPoint(); 
-            
-            // If the user clicks within the boundaries of a pit
-            if ( x <= mousePoint.getX() && mousePoint.getX() <= x + width && y <= mousePoint.getY() && mousePoint.getY() <= y + height) {
-
-                // Pit is selected 
-                pit.selectPit(true);                
-            }
-            
-            repaint();
-        }
     }
 
     
