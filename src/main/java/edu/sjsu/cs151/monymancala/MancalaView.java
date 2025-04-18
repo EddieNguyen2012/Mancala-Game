@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
     private BoardStyle style;
+    private JPanel selectedPitPanel = null; // To keep track of the selected panel
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -115,14 +116,14 @@ public class MancalaView extends JFrame implements ChangeListener {
     
     private void selectPanel(JPanel panel) {
         // Deselect the previously selected panel
-        if (selectedPanel != null) {
-            selectedPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));       // Reset border
-            selectedPanel.setBackground(Color.LIGHT_GRAY);                              // Reset background color
+        if (selectedPitPanel != null) {
+            selectedPitPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));       // Reset border
+            selectedPitPanel.setBackground(Color.LIGHT_GRAY);                              // Reset background color
         }
 
         // Select the current panel
-        selectedPanel = panel;
-        selectedPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
+        selectedPitPanel = panel;
+        selectedPitPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
         pitPanel.repaint();
     }
     
