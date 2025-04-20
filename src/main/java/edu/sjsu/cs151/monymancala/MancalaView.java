@@ -23,17 +23,21 @@ public class MancalaView extends JFrame implements ChangeListener {
     private ArrayList<JComponent> componentList;
 
     public MancalaView(MancalaModel model) {
+        this.model = model;
         // Welcome Window
         welcomeWindow();
-        
-        this.model = model;
-        this.style = model.getStyle();
-
         componentList = new ArrayList<>();
 
         //Frame
         setTitle("Mancala");
         setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void buildComponents() {
+        this.style = model.getStyle();
+
+        componentList = new ArrayList<>();
 
         //Center Panel for the pits
         centerPanel = new JPanel();
@@ -42,7 +46,7 @@ public class MancalaView extends JFrame implements ChangeListener {
 
         //West panel for mancala
         westPanel = new JPanel(new BorderLayout());
-        
+
         //East panel for mancala
         eastPanel = new JPanel(new BorderLayout());
         buildSidePanels();
@@ -52,7 +56,6 @@ public class MancalaView extends JFrame implements ChangeListener {
         add(westPanel, BorderLayout.WEST);
         add(eastPanel, BorderLayout.EAST);
         pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
@@ -75,10 +78,9 @@ public class MancalaView extends JFrame implements ChangeListener {
         style1Button.addActionListener(e -> style1ButtonActionPerformed());
         
         JButton style2Button = new JButton("Style 2");
-        style2Button.addActionListener(e -> style2ButtonActionPerformed());
         // Set button size
         style2Button.setPreferredSize(new Dimension(150, 50));
-        style2Button.addActionListener(e -> style1ButtonActionPerformed());
+        style2Button.addActionListener(e -> style2ButtonActionPerformed());
         
         // Button Panel
         JPanel buttonPanel = new JPanel();
@@ -238,14 +240,16 @@ public class MancalaView extends JFrame implements ChangeListener {
     }
     // Button Actions
     private void style1ButtonActionPerformed() {
-        this.model.setBoardStyle(style);
+        this.model.setBoardStyle(new DefaultStyle());
         welcomeFrame.dispose();
+        buildComponents();
         setVisible(true);
     }
     
     private void style2ButtonActionPerformed() {
-        this.model.setBoardStyle(style);
+        this.model.setBoardStyle(new ModernStyle());
         welcomeFrame.dispose();
+        buildComponents();
         setVisible(true);
     }
 }
