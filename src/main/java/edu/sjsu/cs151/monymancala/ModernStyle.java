@@ -7,6 +7,7 @@ import javax.swing.*;
 public class ModernStyle implements BoardStyle{
     
     private Image board;
+    private Image mancala;
     private Image pit;
     private Image stones;
 
@@ -14,6 +15,7 @@ public class ModernStyle implements BoardStyle{
         board = new ImageIcon("Images/MancalaBoard.png").getImage();
         pit = new ImageIcon("Images/PitDesign.png").getImage();
         stones = new ImageIcon("Images/RedBall.png").getImage();
+        mancala = new ImageIcon("Images/Mancala.png").getImage();
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ModernStyle implements BoardStyle{
 
     @Override
     public void drawMancala(Graphics2D g2, int x, int y, int width, int height) {
-        g2.drawImage(board, x, y, width, height, null);
+        g2.drawImage(mancala, x, y, width, height, null);
     }
 
     @Override
