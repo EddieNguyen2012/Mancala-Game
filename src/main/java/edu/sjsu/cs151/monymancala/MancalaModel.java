@@ -90,6 +90,7 @@ public class MancalaModel {
             backUp();
             distributeStones(index);
         }
+        notifyView();
     }
 
     private boolean isValidMove(int index) {
@@ -159,7 +160,7 @@ public class MancalaModel {
     public void undo() {
         pits = new ArrayList<>(lastPit);
         backUp();
-//        notifyView();
+        notifyView();
     }
 
 

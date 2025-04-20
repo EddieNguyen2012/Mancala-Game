@@ -6,5 +6,6 @@ public class MancalaTester {
         BoardStyle style = new DefaultStyle();
         model.setBoardStyle(style);
         MancalaView view = new MancalaView(model);
+        model.addChangeListener(view);
     }
 }
