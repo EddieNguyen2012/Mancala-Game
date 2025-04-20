@@ -15,6 +15,9 @@ public class PitComponent extends JPanel {
         setPreferredSize(PIT_SIZE);
     }
 
+    public Pit getCorrespondingPit() {
+        return pit;
+    }
     
     @Override
     public void paintComponent(Graphics g) {

@@ -1,6 +1,7 @@
 package edu.sjsu.cs151.monymancala;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -126,6 +127,16 @@ public class MancalaView extends JFrame implements ChangeListener {
                 public void mouseClicked(MouseEvent e) {
                     selectPit(pitComponent);
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pitComponent.setBorder(null);
+                }
             });
             pitPanel.add(pitComponent);
         }
@@ -139,6 +150,16 @@ public class MancalaView extends JFrame implements ChangeListener {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     selectPit(pitComponent);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pitComponent.setBorder(null);
                 }
             });
             pitPanel.add(pitComponent);
@@ -161,6 +182,9 @@ public class MancalaView extends JFrame implements ChangeListener {
         MancalaComponent mancalaAComponent = new MancalaComponent(mancalaA,style);
         MancalaComponent mancalaBComponent = new MancalaComponent(mancalaB, style);
 
+        componentList.add(mancalaAComponent);
+        componentList.add(mancalaBComponent);
+
         eastPanel.add(mancalaAComponent, BorderLayout.CENTER);
         westPanel.add(mancalaBComponent, BorderLayout.CENTER);
         eastPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
@@ -175,7 +199,11 @@ public class MancalaView extends JFrame implements ChangeListener {
 
         // Select the current panel
         selectedPit = aPit;
-        selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));        // Highlight selected panel
+        selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));// Highlight selected panel
+
+        int pitIndex = aPit.getCorrespondingPit().getIndex();
+        model.makeMove(pitIndex);
+
         pitPanel.repaint();
     }
 
@@ -199,6 +227,8 @@ public class MancalaView extends JFrame implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         updateView();
+        revalidate();
+        repaint();
     }
 
     private void updateView() {
