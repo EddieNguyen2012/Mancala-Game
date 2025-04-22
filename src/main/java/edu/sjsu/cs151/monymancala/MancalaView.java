@@ -72,22 +72,23 @@ public class MancalaView extends JFrame implements ChangeListener {
         imagePanel.setBounds(0, 0, 1200, 800);
         
         // Creating the buttons
-        JButton style1Button = new JButton("Style 1");
-        // Set button size
-        style1Button.setPreferredSize(new Dimension(150, 50));
-        style1Button.addActionListener(e -> style1ButtonActionPerformed());
+        JButton defaultStyleButton = new JButton("Style 1");
+        JButton modernStyleButton = new JButton("Style 2");
         
-        JButton style2Button = new JButton("Style 2");
         // Set button size
-        style2Button.setPreferredSize(new Dimension(150, 50));
-        style2Button.addActionListener(e -> style2ButtonActionPerformed());
+        defaultStyleButton.setPreferredSize(new Dimension(150, 50));
+        defaultStyleButton.addActionListener(e -> styleButtonActionPerformed(new DefaultStyle()));
+        
+        // Set button size
+        modernStyleButton.setPreferredSize(new Dimension(150, 50));
+        modernStyleButton.addActionListener(e -> styleButtonActionPerformed(new ModernStyle()));
         
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(new JLabel("Select Board Style: "));
-        buttonPanel.add(style1Button);
-        buttonPanel.add(style2Button);
+        buttonPanel.add(defaultStyleButton);
+        buttonPanel.add(modernStyleButton);
         buttonPanel.setOpaque(false); // Make the button panel transparent
         
         // Adjusting the welcome frame size and position
@@ -239,15 +240,8 @@ public class MancalaView extends JFrame implements ChangeListener {
         }
     }
     // Button Actions
-    private void style1ButtonActionPerformed() {
-        this.model.setBoardStyle(new DefaultStyle());
-        welcomeFrame.dispose();
-        buildComponents();
-        setVisible(true);
-    }
-    
-    private void style2ButtonActionPerformed() {
-        this.model.setBoardStyle(new ModernStyle());
+    private void styleButtonActionPerformed(BoardStyle aStyle) {
+        this.model.setBoardStyle(aStyle);
         welcomeFrame.dispose();
         buildComponents();
         setVisible(true);
