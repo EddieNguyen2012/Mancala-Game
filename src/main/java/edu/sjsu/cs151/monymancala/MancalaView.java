@@ -14,6 +14,7 @@ public class MancalaView extends JFrame implements ChangeListener {
     private BoardStyle style;
     private PitComponent selectedPit = null; // To keep track of the selected pit component
     private JFrame welcomeFrame;
+    private JFrame initialCountFrame;
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -26,12 +27,14 @@ public class MancalaView extends JFrame implements ChangeListener {
         this.model = model;
         // Welcome Window
         welcomeWindow();
+
         initialCountWindow();
         componentList = new ArrayList<>();
 
         //Frame
         setTitle("Mancala");
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -69,7 +72,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         welcomeFrame.setLayout(new BorderLayout());
         
          // Load the image "MancalaBackground.jpg"
-        ImagePanel imagePanel = new ImagePanel("MancalaBackground.jpg");
+        ImagePanel imagePanel = new ImagePanel("Images/MancalaBackground.jpg");
         imagePanel.setBounds(0, 0, 1200, 800);
         
         // Creating the buttons
@@ -138,7 +141,8 @@ public class MancalaView extends JFrame implements ChangeListener {
  
         initialCountFrame.setLocationRelativeTo(null);
         initialCountFrame.revalidate();
-        initialCountFrame.repaint(); 
+        initialCountFrame.repaint();
+        initialCountFrame.pack();
         
     }
     
@@ -271,29 +275,26 @@ public class MancalaView extends JFrame implements ChangeListener {
     
     @Override
     public void stateChanged(ChangeEvent e) {
-        updateView();
+        for(JComponent component : componentList) {
+            component.repaint();
+        }
         revalidate();
         repaint();
     }
 
-    private void updateView() {
-        for(JComponent component : componentList) {
-            component.repaint();
-        }
-    }
     // Button Actions
     private void styleButtonActionPerformed(BoardStyle aStyle) {
         this.model.setBoardStyle(aStyle);
         welcomeFrame.dispose();
-        initialCountFrame.setVisible(true);
+        buildComponents();
         setVisible(true);
+        initialCountFrame.setVisible(true);
+        initialCountFrame.setLocationRelativeTo(this);
     }
     
     private void stonesButtonActionPerformed(int num) {
         this.model.setPitStones(num);
         initialCountFrame.dispose();
-        buildComponents();
-        
     }
 
     public void showErrorMessage(String errorMsg) {
@@ -305,5 +306,5 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
     }
 
-    // Getter for buttons
+    //Getter for frame
 }
