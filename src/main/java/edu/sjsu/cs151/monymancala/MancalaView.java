@@ -26,6 +26,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         this.model = model;
         // Welcome Window
         welcomeWindow();
+        initialCountWindow();
         componentList = new ArrayList<>();
 
         //Frame
@@ -99,7 +100,48 @@ public class MancalaView extends JFrame implements ChangeListener {
         welcomeFrame.revalidate();
         welcomeFrame.repaint();        
     }
+    
+    private void initialCountWindow() {
+        
+        // Create a frame
+        initialCountFrame = new JFrame("Starting Stone Count"); // border layout is default
+        initialCountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initialCountFrame.setSize(400, 200);
+        initialCountFrame.setLayout(new FlowLayout());
+        
+        // // Create a JLabel to describe requirements
+        initialCountFrame.add(new JLabel("Number of Stones per Pit: "));
+        
+        // Create buttons to submit the input
+        JButton stones3Button = new JButton("3 Stones");
+        JButton stones4Button = new JButton("4 Stones");
+        
+        // Add action listener to the buttons
+        stones3Button.addActionListener(e -> stonesButtonActionPerformed(3));
+        stones4Button.addActionListener(e -> stonesButtonActionPerformed(4));
+        
+        initialCountFrame.add(stones3Button);
+        initialCountFrame.add(stones4Button);
+        
+        /*
+        // Create a text field for user input
+        JTextField textField = new JTextField(15);
+        initialCountFrame.add(textField);
+        
+        // Create a button to submit the input
+        JButton submitButton = new JButton("Submit");
+        initialCountFrame.add(submitButton);
 
+        // Add action listener to the submit button
+        submitButton.addActionListener(e -> submitButtonActionPerformed(textField));
+        */
+ 
+        initialCountFrame.setLocationRelativeTo(null);
+        initialCountFrame.revalidate();
+        initialCountFrame.repaint(); 
+        
+    }
+    
     private void buildCenterPanel() {
 
         //Top labels for player B pits
@@ -243,8 +285,15 @@ public class MancalaView extends JFrame implements ChangeListener {
     private void styleButtonActionPerformed(BoardStyle aStyle) {
         this.model.setBoardStyle(aStyle);
         welcomeFrame.dispose();
-        buildComponents();
+        initialCountFrame.setVisible(true);
         setVisible(true);
+    }
+    
+    private void stonesButtonActionPerformed(int num) {
+        this.model.setPitStones(num);
+        initialCountFrame.dispose();
+        buildComponents();
+        
     }
 
     public void showErrorMessage(String errorMsg) {
