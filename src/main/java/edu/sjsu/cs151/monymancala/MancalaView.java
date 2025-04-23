@@ -246,4 +246,15 @@ public class MancalaView extends JFrame implements ChangeListener {
         buildComponents();
         setVisible(true);
     }
+
+    public void showErrorMessage(String errorMsg) {
+        JOptionPane.showMessageDialog(
+                null,
+                errorMsg,
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    // Getter for buttons
 }

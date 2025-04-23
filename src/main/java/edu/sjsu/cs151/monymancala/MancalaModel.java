@@ -21,7 +21,7 @@ public class MancalaModel {
     public MancalaModel(int stonesPerPit) {
         pits = new ArrayList<>();
         observers = new ArrayList<>();
-        initializeBoard(stonesPerPit);
+        initializeBoard();
 
         selectedIndex = 0;
 
@@ -56,7 +56,10 @@ public class MancalaModel {
          currentPlayer = 1;
     }
 
-    private void initializeBoard(int stonesPerPit) {
+    private void initializeBoard() {
+        setStones(0);
+    }
+    private void setStones(int stonesPerPit) {
         for (int i = 0; i < 14; i++) {
             switch (i) {
                 case 6: {
