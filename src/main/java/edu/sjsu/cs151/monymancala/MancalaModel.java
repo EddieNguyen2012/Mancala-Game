@@ -18,6 +18,49 @@ public class MancalaModel {
 
     private int currentPlayer;
 
+    
+    public MancalaModel() {
+        
+        pits = new ArrayList<>();
+        observers = new ArrayList<>();
+        style = new ModernStyle();
+        //initializeEmptyBoard(); <--- I was working on an empty board function
+
+        selectedIndex = 0;
+
+        // Initialize iterator
+        iterator = new MancalaIterator() {
+
+            /**
+             * Check if current index is not out of bound
+             * @return true if next index (currentPit + 1) is out of bound
+             */
+            @Override
+            public boolean hasNext() {
+                return selectedIndex + 1 < pits.size();
+            }
+
+            /**
+             * Return the next pit in the pits list. If the current pit is at the end of the list, set the current
+             * pit to the beginning and return the first one.
+             * @return
+             */
+            @Override
+            public Pit next() {
+                if (this.hasNext()) {
+                    return pits.get(++selectedIndex);
+                }
+                else {
+                    selectedIndex = 0;
+                    return pits.get(selectedIndex);
+                }
+            }
+        };
+         currentPlayer = 1;
+    
+    }
+
+    
     public MancalaModel(int stonesPerPit) {
         pits = new ArrayList<>();
         observers = new ArrayList<>();
@@ -56,6 +99,26 @@ public class MancalaModel {
          currentPlayer = 1;
     }
 
+    // Keeping the original function for now - - - - - - - - - - - - -
+    private void initializeBoard(int stonesPerPit) {
+        for (int i = 0; i < 14; i++) {
+            switch (i) {
+                case 6: {
+                    pits.add(new Pit("Mancala A", i, 0, 1));
+                    break;
+                }
+                case 13: {
+                    pits.add(new Pit("Mancala B", i, 0, 2));
+                    break;
+                }
+                default:
+                    pits.add(new Pit("Pit", i, stonesPerPit, 0));
+            }
+        }
+        backUp();
+    }
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    
     private void initializeBoard() {
         setStones(0);
     }
@@ -204,7 +267,12 @@ public class MancalaModel {
 //        }
 //        System.out.println();
 //    }
-
+// - - - - - - - - - -- - - - - - - - - - -
+    public void setPitStones(int num){
+        initializeBoard(num);
+    }
+// - - - - - - - - - -- - - - - - - - - - -
+    
     public void setBoardStyle(BoardStyle style){
         this.style = style;
     }
