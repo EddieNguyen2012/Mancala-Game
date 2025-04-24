@@ -21,7 +21,7 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JPanel topLabelPanel;
     private JPanel bottomLabelPanel;
     private JPanel pitPanel;
-    private ArrayList<JComponent> componentList;
+    private ArrayList<PitComponent> componentList;
 
     public MancalaView(MancalaModel model) {
         this.model = model;
@@ -231,8 +231,8 @@ public class MancalaView extends JFrame implements ChangeListener {
         MancalaComponent mancalaAComponent = new MancalaComponent(mancalaA,style);
         MancalaComponent mancalaBComponent = new MancalaComponent(mancalaB, style);
 
-        componentList.add(mancalaAComponent);
-        componentList.add(mancalaBComponent);
+//        componentList.add(mancalaAComponent);
+//        componentList.add(mancalaBComponent);
 
         eastPanel.add(mancalaAComponent, BorderLayout.CENTER);
         westPanel.add(mancalaBComponent, BorderLayout.CENTER);
@@ -275,9 +275,9 @@ public class MancalaView extends JFrame implements ChangeListener {
     
     @Override
     public void stateChanged(ChangeEvent e) {
-        for(JComponent component : componentList) {
-            component.repaint();
-        }
+//        for(JComponent component : componentList) {
+//            component.repaint();
+//        }
         revalidate();
         repaint();
     }
@@ -306,5 +306,21 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
     }
 
-    //Getter for frame
+    //Getters for frames
+    public JFrame getBoardFrame() {
+        return this;
+    }
+
+    public JFrame getWelcomeFrame() {
+        return welcomeFrame;
+    }
+
+    public JFrame getInitialCountFrame() {
+        return initialCountFrame;
+    }
+
+    //Getter for PitComponents
+    public ArrayList<PitComponent> getPitComponents() {
+        return componentList;
+    }
 }
