@@ -1,16 +1,14 @@
 package edu.sjsu.cs151.monymancala;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
+    private MancalaController controler;
     private BoardStyle style;
     private PitComponent selectedPit = null; // To keep track of the selected pit component
     private JFrame welcomeFrame;
@@ -23,8 +21,9 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JPanel pitPanel;
     private ArrayList<PitComponent> componentList;
 
-    public MancalaView(MancalaModel model) {
+    public MancalaView(MancalaModel model, MancalaController controler) {
         this.model = model;
+        this.controler = controler;
         // Welcome Window
         welcomeWindow();
 
@@ -59,6 +58,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         add(centerPanel, BorderLayout.CENTER);
         add(westPanel, BorderLayout.WEST);
         add(eastPanel, BorderLayout.EAST);
+        controler.setView(this);
         pack();
         setLocationRelativeTo(null);
     }
@@ -171,22 +171,6 @@ public class MancalaView extends JFrame implements ChangeListener {
             Pit pit = model.getPit(i);
             PitComponent pitComponent = new PitComponent(pit, style);
             componentList.add(pitComponent);
-            pitComponent.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    selectPit(pitComponent);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    pitComponent.setBorder(null);
-                }
-            });
             pitPanel.add(pitComponent);
         }
 
@@ -195,29 +179,12 @@ public class MancalaView extends JFrame implements ChangeListener {
             Pit pit = model.getPit(i);
             PitComponent pitComponent = new PitComponent(pit, style);
             componentList.add(pitComponent);
-            pitComponent.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    selectPit(pitComponent);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    pitComponent.setBorder(null);
-                }
-            });
             pitPanel.add(pitComponent);
         }
 
         centerPanel.add(topLabelPanel, BorderLayout.NORTH);
         centerPanel.add(pitPanel, BorderLayout.CENTER);
         centerPanel.add(bottomLabelPanel, BorderLayout.SOUTH);
-
     }
 
     private void buildSidePanels() {
@@ -240,7 +207,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
     
-    private void selectPit(PitComponent aPit) {
+    public void selectPit(PitComponent aPit) {
         // Deselect the previously selected panel
         if (selectedPit != null) {
             selectedPit.setBorder(BorderFactory.createEmptyBorder());                   // Reset border
@@ -249,10 +216,6 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Select the current panel
         selectedPit = aPit;
         selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));// Highlight selected panel
-
-        int pitIndex = aPit.getCorrespondingPit().getIndex();
-        model.makeMove(pitIndex);
-
         pitPanel.repaint();
     }
 
@@ -317,6 +280,10 @@ public class MancalaView extends JFrame implements ChangeListener {
 
     public JFrame getInitialCountFrame() {
         return initialCountFrame;
+    }
+
+    public JPanel getPitPanel() {
+        return pitPanel;
     }
 
     //Getter for PitComponents

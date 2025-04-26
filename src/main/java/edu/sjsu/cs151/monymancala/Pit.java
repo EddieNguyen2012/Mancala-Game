@@ -37,8 +37,8 @@ public class Pit {
 
     public int getPlayer() {
         if (this.index <= 6)
-            return 1;
-        else return 2;
+            return 0;
+        else return 1;
     }
 
 
