@@ -56,7 +56,7 @@ public class MancalaModel {
                 }
             }
         };
-         currentPlayer = 1;
+         currentPlayer = 0;
     
     }
 
@@ -84,15 +84,15 @@ public class MancalaModel {
         for (int i = 0; i < 14; i++) {
             switch (i) {
                 case 6: {
-                    pits.add(new Pit("Mancala A", i, 0, 1));
+                    pits.add(new Pit("Mancala A", i, 0, 0));
                     break;
                 }
                 case 13: {
-                    pits.add(new Pit("Mancala B", i, 0, 2));
+                    pits.add(new Pit("Mancala B", i, 0, 1));
                     break;
                 }
                 default:
-                    pits.add(new Pit("Pit", i, 0, 0));
+                    pits.add(new Pit("Pit", i, 0, 2));
             }
         }
         backUp();
@@ -111,6 +111,18 @@ public class MancalaModel {
         return pits.get(index);
     }
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public void backUp() {
         lastPit = new ArrayList<>();
         for (Pit pit: pits) {
@@ -118,12 +130,14 @@ public class MancalaModel {
         }
     }
 
-    public void makeMove(int index) {
+    public boolean makeMove(int index) {
         if (isValidMove(index)) {
             backUp();
             distributeStones(index);
+            notifyView();
+            return true;
         }
-        notifyView();
+        return false;
     }
 
     private boolean isValidMove(int index) {
@@ -134,7 +148,7 @@ public class MancalaModel {
             return false;
 
         // Check if the selected pit is a mancala
-        if (selected.getMancala() != 0) {
+        if (selected.getMancala() != 2) {
             return false;
         }
 
@@ -153,7 +167,7 @@ public class MancalaModel {
         selected.setStoneCount(0);
         for (int i = 1; i < moves; i++) {
             selected = iterator.next();
-            if (selected.getMancala() == 0 || selected.getMancala() == currentPlayer)
+            if (selected.getMancala() == 2 || selected.getMancala() == currentPlayer)
                 selected.addStone(1);
             else{
                 selected = iterator.next();
@@ -164,11 +178,13 @@ public class MancalaModel {
 
         // Check capture
         selected = iterator.next();
-        if (selected.getMancala() != 0 && selected.getMancala() != currentPlayer){
+        if (selected.getMancala() != 2 && selected.getMancala() != currentPlayer){
             selected = iterator.next();
         }
-        if (selected.getPlayer() == currentPlayer && selected.getStoneCount() == 0) {
-            capture(selected.getIndex());
+        if (selected.getPlayer() == currentPlayer && selected.getStoneCount() == 0 && selected.getMancala() == 2) {
+            if (!capture(selected.getIndex())) {
+                selected.addStone(1);
+            }
         }
         else {
             selected.addStone(1);
@@ -177,17 +193,21 @@ public class MancalaModel {
 
     // if your last stone lands in an empty pit on your side of the board, you capture both that stone
     // and all stones in the opposite pit on your opponent's side, placing them in your own store
-    private void capture(int selectedIndex) {
-        if (pits.get(selectedIndex).getMancala() != 0) {
-            return;
+    private boolean capture(int selectedIndex) {
+        if (pits.get(selectedIndex).getMancala() != 2) {
+            return false;
         }
         int stones = pits.get(12 - selectedIndex).getStoneCount() + 1;
+        if (stones - 1 == 0) { // In case opposite pit is empty
+            return false;
+        }
         pits.get(12 - selectedIndex).setStoneCount(0);
         if (selectedIndex < 7) {
             pits.get(6).addStone(stones);
         }
         else
             pits.get(13).addStone(stones);
+        return true;
     }
 
     public void undo() {
