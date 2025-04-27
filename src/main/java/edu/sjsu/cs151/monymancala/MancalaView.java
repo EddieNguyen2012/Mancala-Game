@@ -13,6 +13,7 @@ public class MancalaView extends JFrame implements ChangeListener {
     private PitComponent selectedPit = null; // To keep track of the selected pit component
     private JFrame welcomeFrame;
     private JFrame initialCountFrame;
+    private JPanel backgroundPanel;
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -54,10 +55,17 @@ public class MancalaView extends JFrame implements ChangeListener {
         eastPanel = new JPanel(new BorderLayout());
         buildSidePanels();
 
+        backgroundPanel = new BackgroundPanel("MancalaBoard.png"); // < - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - How should we pass the background?
+        backgroundPanel.add(westPanel, BorderLayout.WEST);
+        backgroundPanel.add(centerPanel, BorderLayout.CENTER);
+        backgroundPanel.add(eastPanel, BorderLayout.EAST);
+        
+        /* - - - - - - - - - - - - - - - - - - - 
         //Panels added to main frame
         add(centerPanel, BorderLayout.CENTER);
         add(westPanel, BorderLayout.WEST);
         add(eastPanel, BorderLayout.EAST);
+        - - - - - - - - - - - - - - - - - - -  */
         controler.setView(this);
         pack();
         setLocationRelativeTo(null);
@@ -109,7 +117,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Create a frame
         initialCountFrame = new JFrame("Starting Stone Count"); // border layout is default
         initialCountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        initialCountFrame.setSize(400, 200);
+        initialCountFrame.setSize(600, 200);
         initialCountFrame.setLayout(new FlowLayout());
         
         // // Create a JLabel to describe requirements
@@ -118,6 +126,9 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Create buttons to submit the input
         JButton stones3Button = new JButton("3 Stones");
         JButton stones4Button = new JButton("4 Stones");
+
+        stones3Button.setPreferredSize(new Dimension(150, 50));
+        stones4Button.setPreferredSize(new Dimension(150, 50));
         
         // Add action listener to the buttons
         stones3Button.addActionListener(e -> stonesButtonActionPerformed(3));
@@ -182,9 +193,14 @@ public class MancalaView extends JFrame implements ChangeListener {
             pitPanel.add(pitComponent);
         }
 
+        topLabelPanel.setOpaque(false);
+        bottomLabelPanel.setOpaque(false);
+        pitPanel.setOpaque(false);
+        
         centerPanel.add(topLabelPanel, BorderLayout.NORTH);
         centerPanel.add(pitPanel, BorderLayout.CENTER);
         centerPanel.add(bottomLabelPanel, BorderLayout.SOUTH);
+        centerPanel.setOpaque(false);
     }
 
     private void buildSidePanels() {
@@ -203,6 +219,8 @@ public class MancalaView extends JFrame implements ChangeListener {
 
         eastPanel.add(mancalaAComponent, BorderLayout.CENTER);
         westPanel.add(mancalaBComponent, BorderLayout.CENTER);
+        eastPanel.setOpaque(false);
+        westPanel.setOpaque(false);
         eastPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
@@ -233,6 +251,23 @@ public class MancalaView extends JFrame implements ChangeListener {
             super.paintComponent(g);
             // Draw the image scaled to the size of the panel
             g.drawImage(welcomeImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+
+    // Custom JPanel to draw the background image
+    class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel(String imagePath) {
+            // Load the image
+            backgroundImage = new ImageIcon(imagePath).getImage();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Draw the background image
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
     
