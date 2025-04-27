@@ -6,7 +6,7 @@ import java.awt.*;
 public class MancalaComponent extends JComponent {
     private final Pit pit;
     private BoardStyle style;
-    private static final Dimension MANCALA_SIZE = new Dimension(80, 160);
+    private static final Dimension MANCALA_SIZE = new Dimension(150, 400);
 
     public MancalaComponent(Pit pit, BoardStyle style){
         this.pit = pit;
