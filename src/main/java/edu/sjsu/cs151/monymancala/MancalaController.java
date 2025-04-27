@@ -51,20 +51,31 @@ public class MancalaController {
         }
     }
     public void endTurn() {
-        undoCount = 0;
-        moveCounter = 0;
-        canEndMove = false;
-        model.setCurrentPlayer((model.getCurrentPlayer() + 1) % 2);
-        System.out.println(model.getCurrentPlayer());// Switch player indication
-        view.getPlayerText().setText("Player: " + (int) (model.getCurrentPlayer() + 1));
+        if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
+            undoCount = 0;
+            moveCounter = 0;
+            canEndMove = false;
+            model.setCurrentPlayer((model.getCurrentPlayer() + 1) % 2);
+//            System.out.println(model.getCurrentPlayer());// Switch player indication
+            view.getPlayerText().setText("Player: " + (int) (model.getCurrentPlayer() + 1));
+        }
+        else {
+            view.getPlayerText().setText("Additional turn for Player " + (int) (model.getCurrentPlayer() + 1));
+            moveCounter = 0;
+            undoCount = 0;
+            canEndMove = false;
+        }
+
 
     }
 
     public void undo() {
         if (undoCount < 3) {
             model.undo();
-//            view.getPitPanel().repaint();
+            view.getPitPanel().repaint();
             undoCount++;
+            moveCounter--;
+            canEndMove = false;
         }
         else {
             view.showErrorMessage("Maximum 3 undo per turn");
@@ -78,14 +89,8 @@ public class MancalaController {
                 view.selectPit(pitComponent);
                 if (moveCounter == 0) {
                     if(model.makeMove(pitComponent.getCorrespondingPit().getIndex())) {
-                        if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
-                            canEndMove = true;
-                            moveCounter++;
-                        }
-                        else {
-                            view.getPlayerText().setText("Additional turn for Player " + (int) (model.getCurrentPlayer() + 1));
-                            moveCounter = 0;
-                        }
+                        canEndMove = true;
+                        moveCounter++;
                     }
                 }
             }

@@ -192,7 +192,10 @@ public class MancalaModel {
     }
 
     public void undo() {
-        pits = new ArrayList<>(lastPit);
+        pits = new ArrayList<>();
+        for (Pit pit: lastPit) {
+            pits.add(new Pit(pit));
+        }
         backUp();
         notifyView();
     }
