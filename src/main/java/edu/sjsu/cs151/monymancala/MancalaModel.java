@@ -60,26 +60,6 @@ public class MancalaModel {
     
     }
 
-//    // Keeping the original function for now - - - - - - - - - - - - -
-//    private void initializeBoard(int stonesPerPit) {
-//        for (int i = 0; i < 14; i++) {
-//            switch (i) {
-//                case 6: {
-//                    pits.add(new Pit("Mancala A", i, 0, 1));
-//                    break;
-//                }
-//                case 13: {
-//                    pits.add(new Pit("Mancala B", i, 0, 2));
-//                    break;
-//                }
-//                default:
-//                    pits.add(new Pit("Pit", i, stonesPerPit, 0));
-//            }
-//        }
-//        backUp();
-//    }
-////- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     private void initializeBoard() {
         for (int i = 0; i < 14; i++) {
             switch (i) {
@@ -104,6 +84,7 @@ public class MancalaModel {
                 pit.setStoneCount(num);
             }
         }
+        backUp();
         notifyView();
     }
 
@@ -126,7 +107,7 @@ public class MancalaModel {
     public void backUp() {
         lastPit = new ArrayList<>();
         for (Pit pit: pits) {
-            lastPit.add(pit.copy());
+            lastPit.add(new Pit(pit));
         }
     }
 

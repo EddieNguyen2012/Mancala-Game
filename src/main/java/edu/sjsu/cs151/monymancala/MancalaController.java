@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventListener;
 
 public class MancalaController {
 
@@ -12,20 +13,36 @@ public class MancalaController {
     private MancalaView view;
     private ArrayList<PitComponent> pits;
     private int undoCount;
-
+    private boolean canEndMove;
+    private int moveCounter;
     private int currentPlayer;
 
 
     public MancalaController(MancalaModel model) {
         this.model = model;
-
-        // Get buttons and link up here
+        canEndMove = false;
+        moveCounter = 0;
     }
 
     public void setView(MancalaView view) {
         this.view = view;
         pits = view.getPitComponents();
         initPits();
+        this.view.getEndTurnButton().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (canEndMove) {
+                    endTurn();
+                }
+            }
+        });
+        this.view.getUndoButton().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                undo();
+            }
+        });
+
     }
 
     public void initPits() {
@@ -35,13 +52,18 @@ public class MancalaController {
     }
     public void endTurn() {
         undoCount = 0;
+        moveCounter = 0;
+        canEndMove = false;
         model.setCurrentPlayer((model.getCurrentPlayer() + 1) % 2);
         System.out.println(model.getCurrentPlayer());// Switch player indication
+        view.getPlayerText().setText("Player: " + (int) (model.getCurrentPlayer() + 1));
+
     }
 
     public void undo() {
         if (undoCount < 3) {
             model.undo();
+            view.getPitPanel().repaint();
             undoCount++;
         }
         else {
@@ -54,9 +76,16 @@ public class MancalaController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 view.selectPit(pitComponent);
-                if(model.makeMove(pitComponent.getCorrespondingPit().getIndex())) { // Check if move is valid
-                    if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
-                        endTurn();
+                if (moveCounter == 0) {
+                    if(model.makeMove(pitComponent.getCorrespondingPit().getIndex())) {
+                        if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
+                            canEndMove = true;
+                            moveCounter++;
+                        }
+                        else {
+                            view.getPlayerText().setText("Additional turn for Player " + (int) (model.getCurrentPlayer() + 1));
+                            moveCounter = 0;
+                        }
                     }
                 }
             }

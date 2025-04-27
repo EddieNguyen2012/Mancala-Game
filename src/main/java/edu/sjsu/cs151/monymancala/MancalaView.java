@@ -16,10 +16,14 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
+    private JPanel southPanel;
     private JPanel topLabelPanel;
     private JPanel bottomLabelPanel;
     private JPanel pitPanel;
     private ArrayList<PitComponent> componentList;
+    private JLabel playerText;
+    private JButton undoButton;
+    private JButton endTurnButton;
 
     public MancalaView(MancalaModel model, MancalaController controler) {
         this.model = model;
@@ -54,10 +58,20 @@ public class MancalaView extends JFrame implements ChangeListener {
         eastPanel = new JPanel(new BorderLayout());
         buildSidePanels();
 
+        southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.X_AXIS));
+        endTurnButton = new JButton("End Turn");
+        southPanel.add(endTurnButton);
+        undoButton = new JButton("Undo");
+        southPanel.add(undoButton);
+        playerText = new JLabel("Player: 1");
+        southPanel.add(playerText);
+
         //Panels added to main frame
         add(centerPanel, BorderLayout.CENTER);
         add(westPanel, BorderLayout.WEST);
         add(eastPanel, BorderLayout.EAST);
+        add(southPanel, BorderLayout.SOUTH);
         controler.setView(this);
         pack();
         setLocationRelativeTo(null);
@@ -269,17 +283,16 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
     }
 
-    //Getters for frames
-    public JFrame getBoardFrame() {
-        return this;
+    public JButton getUndoButton() {
+        return undoButton;
     }
 
-    public JFrame getWelcomeFrame() {
-        return welcomeFrame;
+    public JButton getEndTurnButton() {
+        return endTurnButton;
     }
 
-    public JFrame getInitialCountFrame() {
-        return initialCountFrame;
+    public JLabel getPlayerText() {
+        return playerText;
     }
 
     public JPanel getPitPanel() {
