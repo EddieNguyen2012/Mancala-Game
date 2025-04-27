@@ -283,6 +283,17 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
     }
 
+    public void showGameOverMessage(String gameOverMsg) {
+        JOptionPane.showMessageDialog(
+                null,
+                gameOverMsg,
+                "Game Over",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        for (PitComponent component : componentList) {
+            component.setEnabled(false);
+        }
+    }
     public JButton getUndoButton() {
         return undoButton;
     }

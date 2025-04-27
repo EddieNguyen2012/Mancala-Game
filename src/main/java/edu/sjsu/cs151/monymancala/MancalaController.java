@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.EventListener;
 
 public class MancalaController {
 
@@ -15,7 +14,6 @@ public class MancalaController {
     private int undoCount;
     private boolean canEndMove;
     private int moveCounter;
-    private int currentPlayer;
 
 
     public MancalaController(MancalaModel model) {
@@ -39,7 +37,9 @@ public class MancalaController {
         this.view.getUndoButton().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                undo();
+                if (canEndMove) {
+                    undo();
+                }
             }
         });
 
@@ -52,11 +52,11 @@ public class MancalaController {
     }
     public void endTurn() {
         if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
+            checkGameOver();
             undoCount = 0;
             moveCounter = 0;
             canEndMove = false;
             model.setCurrentPlayer((model.getCurrentPlayer() + 1) % 2);
-//            System.out.println(model.getCurrentPlayer());// Switch player indication
             view.getPlayerText().setText("Player: " + (int) (model.getCurrentPlayer() + 1));
         }
         else {
@@ -74,7 +74,7 @@ public class MancalaController {
             model.undo();
             view.getPitPanel().repaint();
             undoCount++;
-            moveCounter--;
+            moveCounter = 0;
             canEndMove = false;
         }
         else {
@@ -106,7 +106,7 @@ public class MancalaController {
             }
         };
     }
-public void checkGameOver() {
+    public void checkGameOver() {
     	if (gameOver()) {
     		getWinner();
     	}
@@ -114,18 +114,16 @@ public void checkGameOver() {
     
 
     public boolean gameOver() {
-        // Danny fill here;
-        int[] board = model.getBoard();
         boolean playerAstats = true;
         for (int i = 0; i < 6; i++) {
-            if (board[i] > 0) {
+            if (model.getPit(i).getStoneCount() > 0) {
                 playerAstats = false;
                 break;
             }
         }
         boolean playerBstats = true;
         for (int i = 7; i < 13; i++) {
-            if (board[i] > 0) {
+            if (model.getPit(i).getStoneCount() > 0) {
                 playerBstats = false;
                 break;
             }
@@ -133,18 +131,17 @@ public void checkGameOver() {
         return playerAstats || playerBstats;
     }
     private void getWinner() {
-        int[] board = model.getBoard(); 
-        int playerAMancala = board[6];
+        int playerAMancala = model.getPit(6).getStoneCount();
         int playerAStones = 0;
-        int playerBMancala = board[13];
+        int playerBMancala = model.getPit(13).getStoneCount();
         int playerBStones = 0;
 
         for (int i = 0; i < 6; i++) {
-            playerAStones += board[i];
+            playerAStones += model.getPit(i).getStoneCount();
         }
 
         for (int i = 7; i < 13; i++) {
-            playerBStones += board[i];
+            playerBStones += model.getPit(i).getStoneCount();
         }
 
         int playerATotal = playerAMancala + playerAStones;
@@ -159,8 +156,6 @@ public void checkGameOver() {
             winner = "It's a Tie!";
         }
         //calls on view to display winner message.
-        JOptionPane.showMessageDialog(null, "Game Over! and the results are " + winner);
-        view.gameOverMessage(winner);
+        view.showGameOverMessage("Game Over! and the results are " + winner);
     }
-
 }
