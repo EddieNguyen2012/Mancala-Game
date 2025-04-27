@@ -6,7 +6,7 @@ import java.awt.*;
 public class PitComponent extends JPanel {
     private final Pit pit;
     private BoardStyle style;
-    private static final Dimension PIT_SIZE = new Dimension(60, 120);
+    private static final Dimension PIT_SIZE = new Dimension(150, 200);
 
     public PitComponent(Pit pit, BoardStyle style){
         this.pit = pit;
