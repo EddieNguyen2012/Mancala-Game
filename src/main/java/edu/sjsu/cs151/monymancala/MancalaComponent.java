@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MancalaComponent extends JComponent {
-    private final Pit pit;
+    //private final Pit pit;
+    private MancalaModel model;
+    private int pitIndex;
     private BoardStyle style;
     private static final Dimension MANCALA_SIZE = new Dimension(80, 160);
 
-    public MancalaComponent(Pit pit, BoardStyle style){
-        this.pit = pit;
+    public MancalaComponent(MancalaModel model, int pitIndex, BoardStyle style){
+        //this.pit = pit;
+        this.model = model;
+        this.pitIndex = pitIndex;
         this.style = style;
         setPreferredSize(MANCALA_SIZE);
         setOpaque(false);
@@ -22,6 +26,8 @@ public class MancalaComponent extends JComponent {
 
         int width = getWidth();
         int height = getHeight();
+
+        Pit pit = model.getPit(pitIndex);
 
         style.drawMancala(g2, 0, 0, width, height);
 

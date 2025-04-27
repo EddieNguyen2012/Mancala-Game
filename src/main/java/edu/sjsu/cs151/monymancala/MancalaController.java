@@ -63,7 +63,7 @@ public class MancalaController {
     public void undo() {
         if (undoCount < 3) {
             model.undo();
-            view.getPitPanel().repaint();
+//            view.getPitPanel().repaint();
             undoCount++;
         }
         else {

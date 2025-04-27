@@ -182,16 +182,16 @@ public class MancalaView extends JFrame implements ChangeListener {
 
         //Player B's row of pits
         for(int i = 12; i >= 7; i--){
-            Pit pit = model.getPit(i);
-            PitComponent pitComponent = new PitComponent(pit, style);
+            //Pit pit = model.getPit(i);
+            PitComponent pitComponent = new PitComponent(model, i, style);
             componentList.add(pitComponent);
             pitPanel.add(pitComponent);
         }
 
         //Player A's row of pits
         for(int i = 0; i <= 5; i++){
-            Pit pit = model.getPit(i);
-            PitComponent pitComponent = new PitComponent(pit, style);
+            //Pit pit = model.getPit(i);
+            PitComponent pitComponent = new PitComponent(model, i, style);
             componentList.add(pitComponent);
             pitPanel.add(pitComponent);
         }
@@ -206,11 +206,11 @@ public class MancalaView extends JFrame implements ChangeListener {
             Putting the mancalas for each player (index 13 for mancala B and index 6 for mancala A)
             into east and west panel
          */
-        Pit mancalaA = model.getPit(6);
-        Pit mancalaB = model.getPit(13);
+//        Pit mancalaA = model.getPit(6);
+//        Pit mancalaB = model.getPit(13);
 
-        MancalaComponent mancalaAComponent = new MancalaComponent(mancalaA,style);
-        MancalaComponent mancalaBComponent = new MancalaComponent(mancalaB, style);
+        MancalaComponent mancalaAComponent = new MancalaComponent(model, 6, style);
+        MancalaComponent mancalaBComponent = new MancalaComponent(model, 13, style);
 
 //        componentList.add(mancalaAComponent);
 //        componentList.add(mancalaBComponent);
