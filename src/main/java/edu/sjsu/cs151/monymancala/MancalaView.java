@@ -59,6 +59,8 @@ public class MancalaView extends JFrame implements ChangeListener {
         backgroundPanel.add(westPanel, BorderLayout.WEST);
         backgroundPanel.add(centerPanel, BorderLayout.CENTER);
         backgroundPanel.add(eastPanel, BorderLayout.EAST);
+
+        add(backgroundPanel);
         
         /* - - - - - - - - - - - - - - - - - - - 
         //Panels added to main frame
