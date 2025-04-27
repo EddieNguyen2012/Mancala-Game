@@ -4,19 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PitComponent extends JPanel {
-    private final Pit pit;
+//    private final Pit pit;
+    private MancalaModel model;
+    private int pitIndex;
     private BoardStyle style;
     private static final Dimension PIT_SIZE = new Dimension(150, 200);
 
-    public PitComponent(Pit pit, BoardStyle style){
-        this.pit = pit;
+    public PitComponent(MancalaModel model, int pitIndex, BoardStyle style){
+        //this.pit = pit;
+        this.pitIndex = pitIndex;
+        this.model = model;
         this.style = style;
         setOpaque(false);
         setPreferredSize(PIT_SIZE);
     }
 
     public Pit getCorrespondingPit() {
-        return pit;
+        return model.getPit(pitIndex);
     }
     
     @Override
@@ -26,6 +30,8 @@ public class PitComponent extends JPanel {
 
         int width = getWidth();
         int height = getHeight();
+
+        Pit pit = model.getPit(pitIndex);
 
         // Define pit shape/boundary
         Shape pitBoundary = style.getPitBoundary(width, height);

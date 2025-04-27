@@ -14,6 +14,13 @@ public class Pit {
         this.mancala = mancala;
     }
 
+    public Pit(Pit pit) {
+        this.pitLocation = pit.pitLocation;
+        this.index = pit.index;
+        this.stoneCount = pit.stoneCount;
+        this.mancala = pit.mancala;
+    }
+
     //Getters
     String getPitLocation() {
         return pitLocation;
