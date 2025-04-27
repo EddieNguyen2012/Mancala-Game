@@ -4,21 +4,27 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
-public class DefaultStyle implements BoardStyle{
+public class DefaultStyle implements BoardStyle {
     private final Color stoneColor;
     private final Color pitOutlineColor;
+    private final Color pitColor;
     private final Color mancalaOutlineColor;
     private final Color backgroundColor;
+    private final Color labelColor;
 
     public DefaultStyle() {
-        this.stoneColor = Color.black;
-        this.pitOutlineColor = Color.black;
-        this.mancalaOutlineColor = Color.black;
-        this.backgroundColor = Color.white;
+        this.stoneColor = Color.BLACK;
+        this.pitColor = Color.WHITE;
+        this.pitOutlineColor = Color.BLACK;
+        this.mancalaOutlineColor = Color.BLACK;
+        this.backgroundColor = Color.GRAY;
+        this.labelColor = Color.WHITE;
     }
 
     @Override
     public void drawPit(Graphics2D g2, int x, int y, int width, int height) {
+        g2.setColor(pitColor);
+        g2.fillOval(x,y,width,height);
         g2.setColor(pitOutlineColor);
         g2.setStroke(new BasicStroke(3));
         g2.drawOval(x,y,width,height);
@@ -26,7 +32,9 @@ public class DefaultStyle implements BoardStyle{
 
     @Override
     public void drawMancala(Graphics2D g2, int x, int y, int width, int height) {
-        g2.setColor(pitOutlineColor);
+        g2.setColor(pitColor);
+        g2.fillOval(x,y,width,height);
+        g2.setColor(mancalaOutlineColor);
         g2.setStroke(new BasicStroke(3));
         g2.drawOval(x,y,width,height);
     }
@@ -38,8 +46,15 @@ public class DefaultStyle implements BoardStyle{
     }
 
     @Override
-    public Shape getPitBoundary(int width, int height) {
-        return new Ellipse2D.Double(0, 0, width, height);
+    public void drawBackground(Graphics2D g2, int x, int y, int width, int height) {
+        g2.setColor(backgroundColor);
+        g2.fillRect(x,y,width,height);
     }
+
+    @Override
+    public Color getLabelColor() {
+        return labelColor;
+    }
+
 
 }

@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
-    private MancalaController controler;
+    private MancalaController controller;
     private BoardStyle style;
     private PitComponent selectedPit = null; // To keep track of the selected pit component
     private JFrame welcomeFrame;
     private JFrame initialCountFrame;
+    private JPanel backgroundPanel;
     private JPanel centerPanel;
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -25,9 +26,9 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JButton undoButton;
     private JButton endTurnButton;
 
-    public MancalaView(MancalaModel model, MancalaController controler) {
+    public MancalaView(MancalaModel model, MancalaController controller) {
         this.model = model;
-        this.controler = controler;
+        this.controller = controller;
         // Welcome Window
         welcomeWindow();
 
@@ -58,6 +59,11 @@ public class MancalaView extends JFrame implements ChangeListener {
         eastPanel = new JPanel(new BorderLayout());
         buildSidePanels();
 
+        backgroundPanel = new BackgroundPanel(style);
+        backgroundPanel.add(westPanel, BorderLayout.WEST);
+        backgroundPanel.add(centerPanel, BorderLayout.CENTER);
+        backgroundPanel.add(eastPanel, BorderLayout.EAST);
+
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.X_AXIS));
         endTurnButton = new JButton("End Turn");
@@ -67,12 +73,9 @@ public class MancalaView extends JFrame implements ChangeListener {
         playerText = new JLabel("Player: 1");
         southPanel.add(playerText);
 
-        //Panels added to main frame
-        add(centerPanel, BorderLayout.CENTER);
-        add(westPanel, BorderLayout.WEST);
-        add(eastPanel, BorderLayout.EAST);
         add(southPanel, BorderLayout.SOUTH);
-        controler.setView(this);
+        add(backgroundPanel);
+        controller.setView(this);
         pack();
         setLocationRelativeTo(null);
     }
@@ -123,7 +126,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Create a frame
         initialCountFrame = new JFrame("Starting Stone Count"); // border layout is default
         initialCountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        initialCountFrame.setSize(400, 200);
+        initialCountFrame.setSize(600, 200);
         initialCountFrame.setLayout(new FlowLayout());
         
         // // Create a JLabel to describe requirements
@@ -132,6 +135,9 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Create buttons to submit the input
         JButton stones3Button = new JButton("3 Stones");
         JButton stones4Button = new JButton("4 Stones");
+
+        stones3Button.setPreferredSize(new Dimension(150,50));
+        stones4Button.setPreferredSize(new Dimension(150,50));
         
         // Add action listener to the buttons
         stones3Button.addActionListener(e -> stonesButtonActionPerformed(3));
@@ -139,19 +145,6 @@ public class MancalaView extends JFrame implements ChangeListener {
         
         initialCountFrame.add(stones3Button);
         initialCountFrame.add(stones4Button);
-        
-        /*
-        // Create a text field for user input
-        JTextField textField = new JTextField(15);
-        initialCountFrame.add(textField);
-        
-        // Create a button to submit the input
-        JButton submitButton = new JButton("Submit");
-        initialCountFrame.add(submitButton);
-
-        // Add action listener to the submit button
-        submitButton.addActionListener(e -> submitButtonActionPerformed(textField));
-        */
  
         initialCountFrame.setLocationRelativeTo(null);
         initialCountFrame.revalidate();
@@ -166,14 +159,18 @@ public class MancalaView extends JFrame implements ChangeListener {
         topLabelPanel = new JPanel(new GridLayout(1, 6));
         String[] topLabels = new String[]{"B6", "B5", "B4", "B3", "B2", "B1"};
         for (String label : topLabels) {
-            topLabelPanel.add(new JLabel(label, SwingConstants.CENTER));
+            JLabel pitLabel = new JLabel(label, SwingConstants.CENTER);
+            pitLabel.setForeground(style.getLabelColor());
+            topLabelPanel.add(pitLabel);
         }
 
         //Bottom labels for player A pits
         bottomLabelPanel = new JPanel(new GridLayout(1, 6));
         String[] bottomLabels = {"A1", "A2", "A3", "A4", "A5", "A6"};
         for (String label : bottomLabels) {
-            bottomLabelPanel.add(new JLabel(label, SwingConstants.CENTER));
+            JLabel pitLabel = new JLabel(label, SwingConstants.CENTER);
+            pitLabel.setForeground(style.getLabelColor());
+            bottomLabelPanel.add(pitLabel);
         }
 
         //Pit panels between the labels
@@ -195,28 +192,23 @@ public class MancalaView extends JFrame implements ChangeListener {
             componentList.add(pitComponent);
             pitPanel.add(pitComponent);
         }
-
+        centerPanel.setOpaque(false);
+        pitPanel.setOpaque(false);
+        topLabelPanel.setOpaque(false);
+        bottomLabelPanel.setOpaque(false);
         centerPanel.add(topLabelPanel, BorderLayout.NORTH);
         centerPanel.add(pitPanel, BorderLayout.CENTER);
         centerPanel.add(bottomLabelPanel, BorderLayout.SOUTH);
     }
 
     private void buildSidePanels() {
-        /*
-            Putting the mancalas for each player (index 13 for mancala B and index 6 for mancala A)
-            into east and west panel
-         */
-//        Pit mancalaA = model.getPit(6);
-//        Pit mancalaB = model.getPit(13);
-
         MancalaComponent mancalaAComponent = new MancalaComponent(model, 6, style);
         MancalaComponent mancalaBComponent = new MancalaComponent(model, 13, style);
 
-//        componentList.add(mancalaAComponent);
-//        componentList.add(mancalaBComponent);
-
         eastPanel.add(mancalaAComponent, BorderLayout.CENTER);
         westPanel.add(mancalaBComponent, BorderLayout.CENTER);
+        eastPanel.setOpaque(false);
+        westPanel.setOpaque(false);
         eastPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
@@ -249,12 +241,27 @@ public class MancalaView extends JFrame implements ChangeListener {
             g.drawImage(welcomeImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
+
+    // Custom JPanel to draw the background image
+    class BackgroundPanel extends JPanel {
+        private BoardStyle style;
+
+        public BackgroundPanel(BoardStyle style) {
+            this.style = style;
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+
+            style.drawBackground(g2, 0, 0, getWidth(), getHeight());
+        }
+    }
     
     @Override
     public void stateChanged(ChangeEvent e) {
-//        for(JComponent component : componentList) {
-//            component.repaint();
-//        }
         revalidate();
         repaint();
     }

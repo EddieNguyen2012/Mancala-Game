@@ -50,6 +50,7 @@ public class MancalaController {
             pit.addMouseListener(getMouseListener(pit));
         }
     }
+
     public void endTurn() {
         if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
             checkGameOver();

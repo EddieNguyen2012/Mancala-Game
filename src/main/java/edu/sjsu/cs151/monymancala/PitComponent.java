@@ -4,14 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PitComponent extends JPanel {
-//    private final Pit pit;
     private MancalaModel model;
     private int pitIndex;
     private BoardStyle style;
     private static final Dimension PIT_SIZE = new Dimension(150, 200);
 
     public PitComponent(MancalaModel model, int pitIndex, BoardStyle style){
-        //this.pit = pit;
         this.pitIndex = pitIndex;
         this.model = model;
         this.style = style;
@@ -32,9 +30,6 @@ public class PitComponent extends JPanel {
         int height = getHeight();
 
         Pit pit = model.getPit(pitIndex);
-
-        // Define pit shape/boundary
-        Shape pitBoundary = style.getPitBoundary(width, height);
 
         style.drawPit(g2, 0, 0, width, height);
 
