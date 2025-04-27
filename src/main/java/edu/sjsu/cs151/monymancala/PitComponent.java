@@ -8,7 +8,7 @@ public class PitComponent extends JPanel {
     private MancalaModel model;
     private int pitIndex;
     private BoardStyle style;
-    private static final Dimension PIT_SIZE = new Dimension(60, 120);
+    private static final Dimension PIT_SIZE = new Dimension(150, 200);
 
     public PitComponent(MancalaModel model, int pitIndex, BoardStyle style){
         //this.pit = pit;

@@ -8,7 +8,7 @@ public class MancalaComponent extends JComponent {
     private MancalaModel model;
     private int pitIndex;
     private BoardStyle style;
-    private static final Dimension MANCALA_SIZE = new Dimension(80, 160);
+    private static final Dimension MANCALA_SIZE = new Dimension(150, 400);
 
     public MancalaComponent(MancalaModel model, int pitIndex, BoardStyle style){
         //this.pit = pit;
