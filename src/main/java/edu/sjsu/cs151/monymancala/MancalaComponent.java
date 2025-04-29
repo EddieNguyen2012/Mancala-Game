@@ -33,13 +33,11 @@ public class MancalaComponent extends JComponent {
 
         // Draw stones
         int stoneCount = pit.getStoneCount();
-        int padding = 10;
+
         int stonesPerColumn = 6;
-        int usableWidth = width - 2 * padding;
-        int usableHeight = height - 2 * padding;
 
         // stones size based on space
-        int stoneSize = Math.min(Math.min(usableWidth / 3 - 4, usableHeight / stonesPerColumn - 4), 16);
+        int stoneSize = 15;
 
         // grid dimension
         int numColumns = (int) Math.ceil((double) stoneCount / stonesPerColumn);

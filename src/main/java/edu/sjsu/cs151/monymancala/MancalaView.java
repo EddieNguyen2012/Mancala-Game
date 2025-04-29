@@ -93,8 +93,8 @@ public class MancalaView extends JFrame implements ChangeListener {
         imagePanel.setBounds(0, 0, 1200, 800);
         
         // Creating the buttons
-        JButton defaultStyleButton = new JButton("Style 1");
-        JButton modernStyleButton = new JButton("Style 2");
+        JButton defaultStyleButton = new JButton("Default Style");
+        JButton modernStyleButton = new JButton("Modern Style");
         
         // Set button size
         defaultStyleButton.setPreferredSize(new Dimension(150, 50));
@@ -223,41 +223,6 @@ public class MancalaView extends JFrame implements ChangeListener {
         selectedPit = aPit;
         selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));// Highlight selected panel
         pitPanel.repaint();
-    }
-
-    // Updates the image in the Welcome Frame
-    class ImagePanel extends JPanel {
-        private Image welcomeImage;
-
-        public ImagePanel(String imagePath) {
-            // Load the image
-            welcomeImage = new ImageIcon(imagePath).getImage();
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            // Draw the image scaled to the size of the panel
-            g.drawImage(welcomeImage, 0, 0, getWidth(), getHeight(), this);
-        }
-    }
-
-    // Custom JPanel to draw the background image
-    class BackgroundPanel extends JPanel {
-        private BoardStyle style;
-
-        public BackgroundPanel(BoardStyle style) {
-            this.style = style;
-            setOpaque(false);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-
-            style.drawBackground(g2, 0, 0, getWidth(), getHeight());
-        }
     }
     
     @Override

@@ -34,14 +34,9 @@ public class PitComponent extends JPanel {
         style.drawPit(g2, 0, 0, width, height);
 
         int stoneCount = pit.getStoneCount();
-        int padding = 10;
+
         int stonesPerRow = 4;
-
-        int usableWidth = width - 2 * padding;
-        int usableHeight = height - 2 * padding;
-
-        // Sizes of stones determined based on space
-        int stoneSize = Math.min(Math.min(usableWidth / stonesPerRow - 4, usableHeight / 3 - 4), 16);
+        int stoneSize = 15;
 
         // grid dimensions
         int numRows = (int) Math.ceil((double) stoneCount / stonesPerRow);
