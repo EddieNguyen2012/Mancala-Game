@@ -256,6 +256,9 @@ public class MancalaView extends JFrame implements ChangeListener {
     }
 
     public void showGameOverMessage(String gameOverMsg) {
+        // Define an array of custom options for the dialog
+        Object[] options = { "Play Again", "Exit" };
+        
         JOptionPane.showMessageDialog(
                 null,
                 gameOverMsg,
@@ -264,6 +267,32 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
         for (PitComponent component : componentList) {
             component.setEnabled(false);
+        }
+
+        int option = JOptionPane.showOptionDialog(
+            null, // Parent component (null means center on screen)
+            "Do you want to play again?", // Message to display
+            "Play One More Time...", // Dialog title
+            JOptionPane.YES_NO_CANCEL_OPTION, // Option type (Yes, No, Cancel)
+            JOptionPane.QUESTION_MESSAGE, // Message type (question icon)
+            null, // Custom icon (null means no custom icon)
+            options, // Custom options array
+            options[0] // Initial selection (default is "Play Again")
+        );
+        
+        if (option == JOptionPane.YES_OPTION) {
+            setVisible(false);      // Make main JFrame invisible
+            dispose();              // Destroy the main JFrame
+            JOptionPane.showMessageDialog(null,"Restarting Game...");
+            
+            this.model = new MancalaModel();
+            this.controller = new MancalaController(model);
+            MancalaView view = new MancalaView(model, controller); // Restart Mancala Game
+        }
+        else if (option == JOptionPane.NO_OPTION) {
+            setVisible(false);      // Make main JFrame invisible
+            dispose();              // Destroy the main JFrame
+            JOptionPane.showMessageDialog(null, "GoodBye.");
         }
     }
     public JButton getUndoButton() {
