@@ -95,6 +95,7 @@ public class MancalaView extends JFrame implements ChangeListener {
         // Creating the buttons
         JButton defaultStyleButton = new JButton("Default Style");
         JButton modernStyleButton = new JButton("Modern Style");
+        JButton oceanStyleButton = new JButton("Ocean Style");
         
         // Set button size
         defaultStyleButton.setPreferredSize(new Dimension(150, 50));
@@ -104,12 +105,17 @@ public class MancalaView extends JFrame implements ChangeListener {
         modernStyleButton.setPreferredSize(new Dimension(150, 50));
         modernStyleButton.addActionListener(e -> styleButtonActionPerformed(new ModernStyle()));
         
+        // Set button size
+        oceanStyleButton.setPreferredSize(new Dimension(150, 50));
+        oceanStyleButton.addActionListener(e -> styleButtonActionPerformed(new OceanStyle()));
+        
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(new JLabel("Select Board Style: "));
         buttonPanel.add(defaultStyleButton);
         buttonPanel.add(modernStyleButton);
+        buttonPanel.add(oceanStyleButton);
         buttonPanel.setOpaque(false); // Make the button panel transparent
         
         // Adjusting the welcome frame size and position
