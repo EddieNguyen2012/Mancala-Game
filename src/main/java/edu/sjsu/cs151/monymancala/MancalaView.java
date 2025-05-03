@@ -6,6 +6,13 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 
+
+/**
+ * MancalaView represents the graphical user interface (GUI) for the Mancala game.
+ * It handles the rendering of the board, user interaction components (buttons, pits, labels),
+ * and interfaces with the MancalaModel and MancalaController for game logic and behavior.
+ * Implements ChangeListener to respond to changes in the game state.
+ */
 public class MancalaView extends JFrame implements ChangeListener {
     private MancalaModel model;
     private MancalaController controller;
@@ -26,6 +33,16 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JButton undoButton;
     private JButton endTurnButton;
 
+
+    /**
+     * Author: Brandon Sanchez, Marco Lopez
+     *
+     * Constructs the MancalaView by initializing the welcome and initial setup windows,
+     * and setting the title and layout for the main game frame.
+     *
+     * @param model the MancalaModel containing the game data
+     * @param controller the MancalaController managing game actions
+     */
     public MancalaView(MancalaModel model, MancalaController controller) {
         this.model = model;
         this.controller = controller;
@@ -42,6 +59,13 @@ public class MancalaView extends JFrame implements ChangeListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+
+    /**
+     * Author: Brandon Sanchez, Marco Lopez, Danny Nguyen
+     *
+     * Initializes and arranges the components of the main game board including
+     * center, side panels, and control buttons.
+     */
     private void buildComponents() {
         this.style = model.getStyle();
 
@@ -80,35 +104,41 @@ public class MancalaView extends JFrame implements ChangeListener {
         setLocationRelativeTo(null);
     }
 
+
+    /**
+     * Author: Brandon Sanchez, Marco Lopez, Danny Nguyen
+     *
+     * Displays the welcome window with style selection buttons and background image.
+     */
     private void welcomeWindow() {
-        
+
         // Create a frame
         welcomeFrame = new JFrame("Welcome to the Mancala Game App"); // border layout is default
         welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         welcomeFrame.setSize(1200, 800);
         welcomeFrame.setLayout(new BorderLayout());
-        
+
          // Load the image "MancalaBackground.jpg"
         ImagePanel imagePanel = new ImagePanel("Images/MancalaBackground.jpg");
         imagePanel.setBounds(0, 0, 1200, 800);
-        
+
         // Creating the buttons
         JButton defaultStyleButton = new JButton("Default Style");
         JButton modernStyleButton = new JButton("Modern Style");
         JButton oceanStyleButton = new JButton("Ocean Style");
-        
+
         // Set button size
         defaultStyleButton.setPreferredSize(new Dimension(150, 50));
         defaultStyleButton.addActionListener(e -> styleButtonActionPerformed(new DefaultStyle()));
-        
+
         // Set button size
         modernStyleButton.setPreferredSize(new Dimension(150, 50));
         modernStyleButton.addActionListener(e -> styleButtonActionPerformed(new ModernStyle()));
-        
+
         // Set button size
         oceanStyleButton.setPreferredSize(new Dimension(150, 50));
         oceanStyleButton.addActionListener(e -> styleButtonActionPerformed(new OceanStyle()));
-        
+
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -117,48 +147,60 @@ public class MancalaView extends JFrame implements ChangeListener {
         buttonPanel.add(modernStyleButton);
         buttonPanel.add(oceanStyleButton);
         buttonPanel.setOpaque(false); // Make the button panel transparent
-        
+
         // Adjusting the welcome frame size and position
         welcomeFrame.add(imagePanel, BorderLayout.CENTER);
         welcomeFrame.add(buttonPanel, BorderLayout.SOUTH);
         welcomeFrame.setLocationRelativeTo(null);
         welcomeFrame.setVisible(true);
         welcomeFrame.revalidate();
-        welcomeFrame.repaint();        
+        welcomeFrame.repaint();
     }
-    
+
+
+    /**
+     * Author: Marco Lopez, Brandon Sanchez
+     *
+     * Displays a window to allow the player to choose the initial number of stones per pit.
+     */
     private void initialCountWindow() {
-        
+
         // Create a frame
         initialCountFrame = new JFrame("Starting Stone Count"); // border layout is default
         initialCountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initialCountFrame.setSize(600, 200);
         initialCountFrame.setLayout(new FlowLayout());
-        
+
         // // Create a JLabel to describe requirements
         initialCountFrame.add(new JLabel("Number of Stones per Pit: "));
-        
+
         // Create buttons to submit the input
         JButton stones3Button = new JButton("3 Stones");
         JButton stones4Button = new JButton("4 Stones");
 
         stones3Button.setPreferredSize(new Dimension(150,50));
         stones4Button.setPreferredSize(new Dimension(150,50));
-        
+
         // Add action listener to the buttons
         stones3Button.addActionListener(e -> stonesButtonActionPerformed(3));
         stones4Button.addActionListener(e -> stonesButtonActionPerformed(4));
-        
+
         initialCountFrame.add(stones3Button);
         initialCountFrame.add(stones4Button);
- 
+
         initialCountFrame.setLocationRelativeTo(null);
         initialCountFrame.revalidate();
         initialCountFrame.repaint();
         initialCountFrame.pack();
-        
+
     }
-    
+
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Builds the center panel containing player pits and their corresponding labels.
+     */
     private void buildCenterPanel() {
 
         //Top labels for player B pits
@@ -207,6 +249,12 @@ public class MancalaView extends JFrame implements ChangeListener {
         centerPanel.add(bottomLabelPanel, BorderLayout.SOUTH);
     }
 
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Builds the left and right panels representing each player's Mancala store.
+     */
     private void buildSidePanels() {
         MancalaComponent mancalaAComponent = new MancalaComponent(model, 6, style);
         MancalaComponent mancalaBComponent = new MancalaComponent(model, 13, style);
@@ -218,7 +266,14 @@ public class MancalaView extends JFrame implements ChangeListener {
         eastPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,20));
         westPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,10));
     }
-    
+
+
+    /**
+     * Author: Marco Lopez, Brandon Sanchez
+     * Highlights the selected pit and deselects the previously selected pit.
+     *
+     * @param aPit the pit component that was selected
+     */
     public void selectPit(PitComponent aPit) {
         // Deselect the previously selected panel
         if (selectedPit != null) {
@@ -230,14 +285,29 @@ public class MancalaView extends JFrame implements ChangeListener {
         selectedPit.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));// Highlight selected panel
         pitPanel.repaint();
     }
-    
+
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Update component when model changed
+     * @param e  a ChangeEvent object
+     */
     @Override
     public void stateChanged(ChangeEvent e) {
         revalidate();
         repaint();
     }
 
+
     // Button Actions
+    /**
+     * Author: Marco Lopez, Brandon Sanchez
+     *
+     * Handles the action when a board style is selected. Applies the style and initializes the board.
+     *
+     * @param aStyle the selected board style
+     */
     private void styleButtonActionPerformed(BoardStyle aStyle) {
         this.model.setBoardStyle(aStyle);
         welcomeFrame.dispose();
@@ -246,12 +316,28 @@ public class MancalaView extends JFrame implements ChangeListener {
         initialCountFrame.setVisible(true);
         initialCountFrame.setLocationRelativeTo(this);
     }
-    
+
+
+    /**
+     * Author: Marco Lopez
+     *
+     * Handles the action when a stone count is selected. Applies the number and closes the setup window.
+     *
+     * @param num number of stones per pit
+     */
     private void stonesButtonActionPerformed(int num) {
         this.model.setPitStones(num);
         initialCountFrame.dispose();
     }
 
+
+    /**
+     * Author: Eddie Nguyen
+     *
+     * Displays an error message in a dialog box.
+     *
+     * @param errorMsg the error message to display
+     */
     public void showErrorMessage(String errorMsg) {
         JOptionPane.showMessageDialog(
                 null,
@@ -261,6 +347,13 @@ public class MancalaView extends JFrame implements ChangeListener {
         );
     }
 
+    /**
+     * Author: Marco Lopez, Eddie Nguyen
+     *
+     * Show game over message when game ended. Prompts user to choose exit program or start over.
+     *
+     * @param gameOverMsg the result of the game
+     */
     public void showGameOverMessage(String gameOverMsg) {
         // Define an array of custom options for the dialog
         Object[] options = { "Play Again", "Exit" };
@@ -301,23 +394,53 @@ public class MancalaView extends JFrame implements ChangeListener {
             JOptionPane.showMessageDialog(null, "GoodBye.");
         }
     }
+
+    /**
+     * Author: Eddie Nguyen
+     * Return undo button for controller
+     * @return the undo button
+     */
     public JButton getUndoButton() {
         return undoButton;
     }
 
+    /**
+     * Author: Eddie Nguyen
+     *
+     * Return end turn button for controller
+     * @return the end turn button
+     */
     public JButton getEndTurnButton() {
         return endTurnButton;
     }
 
+    /**
+     * Author: Eddie Nguyen
+     *
+     * Return current player indicator for controller
+     * @return the player indicator text
+     */
     public JLabel getPlayerText() {
         return playerText;
     }
 
+    /**
+     * Author: Eddie Nguyen
+     *
+     * Return pit panel for controller
+     * @return the pit panel
+     */
     public JPanel getPitPanel() {
         return pitPanel;
     }
 
-    //Getter for PitComponents
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Return list of pit components for controller
+     * @return the list of pit components
+     */
     public ArrayList<PitComponent> getPitComponents() {
         return componentList;
     }

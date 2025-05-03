@@ -3,6 +3,11 @@ package edu.sjsu.cs151.monymancala;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * MancalaComponent is a custom Swing component that represents a single Mancala pit.
+ * It visually displays the pit using a specified BoardStyle and renders the stones
+ * within the pit based on the current game model.
+ */
 public class MancalaComponent extends JComponent {
     //private final Pit pit;
     private MancalaModel model;
@@ -10,6 +15,14 @@ public class MancalaComponent extends JComponent {
     private BoardStyle style;
     private static final Dimension MANCALA_SIZE = new Dimension(150, 400);
 
+    /**
+     * Author: Brandon Sanchez
+     * Constructs a MancalaComponent with the given model, pit index, and board style.
+     *
+     * @param model the game model containing pit information
+     * @param pitIndex the index of the pit this component represents
+     * @param style the BoardStyle used to render the component
+     */
     public MancalaComponent(MancalaModel model, int pitIndex, BoardStyle style){
         //this.pit = pit;
         this.model = model;
@@ -19,6 +32,12 @@ public class MancalaComponent extends JComponent {
         setOpaque(false);
     }
 
+    /**
+     * Author: Brandon Sanchez
+     * Paints the Mancala pit and its stones using the specified board style.
+     *
+     * @param g the Graphics context used for painting
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

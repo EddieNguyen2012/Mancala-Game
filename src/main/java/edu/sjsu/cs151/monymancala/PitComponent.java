@@ -9,6 +9,13 @@ public class PitComponent extends JPanel {
     private BoardStyle style;
     private static final Dimension PIT_SIZE = new Dimension(150, 200);
 
+    /**
+     * Constructs a PitComponent that visually represents a pit on the Mancala board.
+     *
+     * @param model the MancalaModel representing the current state of the game
+     * @param pitIndex the index of the pit this component represents
+     * @param style the visual style used to render the pit
+     */
     public PitComponent(MancalaModel model, int pitIndex, BoardStyle style){
         this.pitIndex = pitIndex;
         this.model = model;
@@ -17,10 +24,24 @@ public class PitComponent extends JPanel {
         setPreferredSize(PIT_SIZE);
     }
 
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns the Pit object associated with this component.
+     *
+     * @return the corresponding Pit from the model
+     */
     public Pit getCorrespondingPit() {
         return model.getPit(pitIndex);
     }
-    
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Paints the pit and its stones using the provided Graphics context.
+     *
+     * @param g the Graphics context to use for painting
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

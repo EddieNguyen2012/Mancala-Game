@@ -7,11 +7,24 @@ import java.awt.*;
 public class BackgroundPanel extends JPanel {
     private BoardStyle style;
 
+    /**
+     * Author: Brandon Sanchez
+     * Constructs a BackgroundPanel with the specified BoardStyle.
+     *
+     * @param style the BoardStyle used to draw the background
+     */
     public BackgroundPanel(BoardStyle style) {
         this.style = style;
         setOpaque(false);
     }
 
+    /**
+     * Author: Brandon Sanchez
+     * Overrides the paintComponent method to draw the custom background
+     * using the BoardStyle's drawBackground method.
+     *
+     * @param g the Graphics object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
