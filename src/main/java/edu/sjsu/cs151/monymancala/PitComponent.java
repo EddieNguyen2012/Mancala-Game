@@ -25,7 +25,7 @@ public class PitComponent extends JPanel {
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Brandon Sanchez, Marco Lopez
      *
      * Returns the Pit object associated with this component.
      *
@@ -36,7 +36,7 @@ public class PitComponent extends JPanel {
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Brandon Sanchez, Marco Lopez
      *
      * Paints the pit and its stones using the provided Graphics context.
      *

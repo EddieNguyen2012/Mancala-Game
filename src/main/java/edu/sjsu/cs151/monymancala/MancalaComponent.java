@@ -16,7 +16,7 @@ public class MancalaComponent extends JComponent {
     private static final Dimension MANCALA_SIZE = new Dimension(150, 400);
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Brandon Sanchez, Marco Lopez
      * Constructs a MancalaComponent with the given model, pit index, and board style.
      *
      * @param model the game model containing pit information
@@ -33,7 +33,7 @@ public class MancalaComponent extends JComponent {
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Brandon Sanchez, Marco Lopez
      * Paints the Mancala pit and its stones using the specified board style.
      *
      * @param g the Graphics context used for painting

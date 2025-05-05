@@ -11,7 +11,7 @@ public class ImagePanel extends JPanel {
     private Image welcomeImage;
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      * Constructs an ImagePanel with the specified image path.
      *
      * @param imagePath the path to the image file to be displayed
@@ -22,7 +22,7 @@ public class ImagePanel extends JPanel {
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      * Paints the image on the panel, scaling it to the current size of the panel.
      *
      * @param g the Graphics context used for painting
