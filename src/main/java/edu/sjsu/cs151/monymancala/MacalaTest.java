@@ -1,6 +1,6 @@
 package edu.sjsu.cs151.monymancala;
 
-public class MacalaMain {
+public class MacalaTest {
     public static void main(String[] args) {
         MancalaModel model = new MancalaModel();
         MancalaController controller = new MancalaController(model);
