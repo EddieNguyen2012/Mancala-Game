@@ -19,10 +19,10 @@ public class OceanStyle implements BoardStyle{
      * the board, pits, mancala store, and stones. Sets the label color to white.
      */
     public OceanStyle() {
-        board = new ImageIcon("Images/OceanBoard.png").getImage();
+        board = new ImageIcon("Images/BeachMancala.png").getImage();
         pit = new ImageIcon("Images/OceanPit.png").getImage();
         stones = new ImageIcon("Images/SandDollar.png").getImage();
-        mancala = new ImageIcon("Images/BeachMancala.png").getImage();
+        mancala = new ImageIcon("Images/OceanMancala.png").getImage();
         this.labelColor = Color.WHITE;
     }
 
