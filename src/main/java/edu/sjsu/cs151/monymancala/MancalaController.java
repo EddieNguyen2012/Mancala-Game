@@ -29,6 +29,7 @@ public class MancalaController {
     }
 
     /**
+     * Author: Eddie Nquyen, Marco Lopez, Brandon Sanchez, Danny Nguyen
      * Sets the view for the controller and initializes button and pit interactions.
      * Attaches mouse listeners to the "End Turn" and "Undo" buttons and sets up the pit components.
      *
@@ -36,44 +37,64 @@ public class MancalaController {
      */
     public void setView(MancalaView view) {
         this.view = view;
+
+        //Style buttons
+        JButton defaultStyleButton = view.getDefaultStyleButton();
+        JButton modernStyleButton = view.getModernStyleButton();
+        JButton oceanStyleButton = view.getOceanStyleButton();
+
+        defaultStyleButton.addActionListener(e -> setBoardStyle(new DefaultStyle()));
+        modernStyleButton.addActionListener(e -> setBoardStyle(new ModernStyle()));
+        oceanStyleButton.addActionListener(e -> setBoardStyle(new OceanStyle()));
+
+
+        //Stone count buttons
+        JButton stones3button = view.getStones3Button();
+        JButton stones4button = view.getStones4Button();
+
+        stones3button.addActionListener(e -> setPitStones(3));
+        stones4button.addActionListener(e -> setPitStones(4));
+        if(view.getEndTurnButton() != null) {
+            this.view.getEndTurnButton().addMouseListener(new MouseAdapter() {
+                /**
+                 * Author: Eddie Nguyen
+                 * <p>
+                 * Handles mouse click events on the "End Turn" button.
+                 * If ending the turn is allowed (canEndMove is true),
+                 * it triggers the endTurn() logic which switches the player
+                 * or grants an additional turn if appropriate.
+                 *
+                 * @param e the MouseEvent representing the click on the button
+                 */
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (canEndMove) {
+                        endTurn();
+                    }
+                }
+            });
+
+            this.view.getUndoButton().addMouseListener(new MouseAdapter() {
+                /**
+                 * Author: Eddie Nguyen
+                 * <p>
+                 * Handles mouse click events on the "Undo" button.
+                 * If ending the turn is allowed (canEndMove is true),
+                 * it triggers an undo action as long as the undo limit has not been exceeded.
+                 *
+                 * @param e the MouseEvent representing the click on the button
+                 */
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (canEndMove) {
+                        undo();
+                    }
+                }
+            });
+        }
+
         pits = view.getPitComponents();
         initPits();
-        this.view.getEndTurnButton().addMouseListener(new MouseAdapter() {
-            /**
-             * Author: Eddie Nguyen
-             *
-             * Handles mouse click events on the "End Turn" button.
-             * If ending the turn is allowed (canEndMove is true),
-             * it triggers the endTurn() logic which switches the player
-             * or grants an additional turn if appropriate.
-             *
-             * @param e the MouseEvent representing the click on the button
-             */
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (canEndMove) {
-                    endTurn();
-                }
-            }
-        });
-        this.view.getUndoButton().addMouseListener(new MouseAdapter() {
-            /**
-             * Author: Eddie Nguyen
-             *
-             * Handles mouse click events on the "Undo" button.
-             * If ending the turn is allowed (canEndMove is true),
-             * it triggers an undo action as long as the undo limit has not been exceeded.
-             *
-             * @param e the MouseEvent representing the click on the button
-             */
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (canEndMove) {
-                    undo();
-                }
-            }
-        });
-
     }
 
     /**
@@ -147,6 +168,9 @@ public class MancalaController {
              */
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(pitComponent.getCorrespondingPit().getPlayer() != model.getCurrentPlayer()) {
+                    return;
+                }
                 view.selectPit(pitComponent);
                 if (moveCounter == 0) {
                     if(model.makeMove(pitComponent.getCorrespondingPit().getIndex())) {
@@ -164,7 +188,9 @@ public class MancalaController {
              */
             @Override
             public void mouseEntered(MouseEvent e) {
-                pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+                if(pitComponent.getCorrespondingPit().getPlayer() == model.getCurrentPlayer()) {
+                    pitComponent.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+                }
             }
 
             /**
@@ -248,5 +274,33 @@ public class MancalaController {
         }
         //calls on view to display winner message.
         view.showGameOverMessage("Game Over! and the results are " + winner);
+    }
+
+    // Button Actions
+    /**
+     * Author: Marco Lopez, Brandon Sanchez
+     *
+     * Handles the action when a board style is selected. Applies the style and initializes the board.
+     *
+     * @param aStyle the selected board style
+     */
+    private void setBoardStyle(BoardStyle aStyle) {
+        this.model.setBoardStyle(aStyle);
+        view.closeWelcomeWindow();
+        view.buildComponents();
+        view.setVisible(true);
+        view.showInitialCountFrame();
+    }
+
+    /**
+     * Author: Marco Lopez, Brandon Sanchez
+     *
+     * Handles the action when a stone count is selected. Applies the number and closes the setup window.
+     *
+     * @param num number of stones per pit
+     */
+    private void setPitStones(int num) {
+        this.model.setPitStones(num);
+        view.closeInitialCountWindow();
     }
 }

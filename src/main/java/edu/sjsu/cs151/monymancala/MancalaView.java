@@ -32,6 +32,11 @@ public class MancalaView extends JFrame implements ChangeListener {
     private JLabel playerText;
     private JButton undoButton;
     private JButton endTurnButton;
+    private JButton defaultStyleButton;
+    private JButton modernStyleButton;
+    private JButton oceanStyleButton;
+    private JButton stones3Button;
+    private JButton stones4Button;
 
 
     /**
@@ -66,7 +71,7 @@ public class MancalaView extends JFrame implements ChangeListener {
      * Initializes and arranges the components of the main game board including
      * center, side panels, and control buttons.
      */
-    private void buildComponents() {
+    public void buildComponents() {
         this.style = model.getStyle();
 
         componentList = new ArrayList<>();
@@ -123,21 +128,18 @@ public class MancalaView extends JFrame implements ChangeListener {
         imagePanel.setBounds(0, 0, 1200, 800);
 
         // Creating the buttons
-        JButton defaultStyleButton = new JButton("Default Style");
-        JButton modernStyleButton = new JButton("Modern Style");
-        JButton oceanStyleButton = new JButton("Ocean Style");
+        defaultStyleButton = new JButton("Default Style");
+        modernStyleButton = new JButton("Modern Style");
+        oceanStyleButton = new JButton("Ocean Style");
 
         // Set button size
         defaultStyleButton.setPreferredSize(new Dimension(150, 50));
-        defaultStyleButton.addActionListener(e -> styleButtonActionPerformed(new DefaultStyle()));
 
         // Set button size
         modernStyleButton.setPreferredSize(new Dimension(150, 50));
-        modernStyleButton.addActionListener(e -> styleButtonActionPerformed(new ModernStyle()));
 
         // Set button size
         oceanStyleButton.setPreferredSize(new Dimension(150, 50));
-        oceanStyleButton.addActionListener(e -> styleButtonActionPerformed(new OceanStyle()));
 
         // Button Panel
         JPanel buttonPanel = new JPanel();
@@ -175,15 +177,13 @@ public class MancalaView extends JFrame implements ChangeListener {
         initialCountFrame.add(new JLabel("Number of Stones per Pit: "));
 
         // Create buttons to submit the input
-        JButton stones3Button = new JButton("3 Stones");
-        JButton stones4Button = new JButton("4 Stones");
+        stones3Button = new JButton("3 Stones");
+        stones4Button = new JButton("4 Stones");
 
         stones3Button.setPreferredSize(new Dimension(150,50));
         stones4Button.setPreferredSize(new Dimension(150,50));
 
         // Add action listener to the buttons
-        stones3Button.addActionListener(e -> stonesButtonActionPerformed(3));
-        stones4Button.addActionListener(e -> stonesButtonActionPerformed(4));
 
         initialCountFrame.add(stones3Button);
         initialCountFrame.add(stones4Button);
@@ -195,6 +195,33 @@ public class MancalaView extends JFrame implements ChangeListener {
 
     }
 
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Closes the welcome window frame after use.
+     */
+    public void closeWelcomeWindow() {
+        welcomeFrame.dispose();
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Shows the initialCount window by setting it to visible and setting its relative location
+     */
+    public void showInitialCountFrame() {
+        initialCountFrame.setVisible(true);
+        initialCountFrame.setLocationRelativeTo(this);
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Closes the initialCount window after use.
+     */
+    public void closeInitialCountWindow() {
+        initialCountFrame.dispose();
+    }
 
     /**
      * Author: Brandon Sanchez
@@ -300,37 +327,6 @@ public class MancalaView extends JFrame implements ChangeListener {
     }
 
 
-    // Button Actions
-    /**
-     * Author: Marco Lopez, Brandon Sanchez
-     *
-     * Handles the action when a board style is selected. Applies the style and initializes the board.
-     *
-     * @param aStyle the selected board style
-     */
-    private void styleButtonActionPerformed(BoardStyle aStyle) {
-        this.model.setBoardStyle(aStyle);
-        welcomeFrame.dispose();
-        buildComponents();
-        setVisible(true);
-        initialCountFrame.setVisible(true);
-        initialCountFrame.setLocationRelativeTo(this);
-    }
-
-
-    /**
-     * Author: Marco Lopez
-     *
-     * Handles the action when a stone count is selected. Applies the number and closes the setup window.
-     *
-     * @param num number of stones per pit
-     */
-    private void stonesButtonActionPerformed(int num) {
-        this.model.setPitStones(num);
-        initialCountFrame.dispose();
-    }
-
-
     /**
      * Author: Eddie Nguyen
      *
@@ -387,6 +383,9 @@ public class MancalaView extends JFrame implements ChangeListener {
             this.model = new MancalaModel();
             this.controller = new MancalaController(model);
             MancalaView view = new MancalaView(model, controller); // Restart Mancala Game
+
+            model.addChangeListener(view);
+            controller.setView(view);
         }
         else if (option == JOptionPane.NO_OPTION) {
             setVisible(false);      // Make main JFrame invisible
@@ -443,5 +442,55 @@ public class MancalaView extends JFrame implements ChangeListener {
      */
     public ArrayList<PitComponent> getPitComponents() {
         return componentList;
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns default style button for controller
+     * @return the default style button
+     */
+    public JButton getDefaultStyleButton() {
+        return defaultStyleButton;
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns modern style button for controller
+     * @return the modern style button
+     */
+    public JButton getModernStyleButton() {
+        return modernStyleButton;
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns ocean style button for controller
+     * @return the ocean style button
+     */
+    public JButton getOceanStyleButton() {
+        return oceanStyleButton;
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns stones3button button for controller
+     * @return the button for setting the initial stone count ot 3
+     */
+    public JButton getStones3Button() {
+        return stones3Button;
+    }
+
+    /**
+     * Author: Brandon Sanchez
+     *
+     * Returns stones4button button for controller
+     * @return the button for setting the initial stone count ot 4
+     */
+    public JButton getStones4Button() {
+        return stones4Button;
     }
 }

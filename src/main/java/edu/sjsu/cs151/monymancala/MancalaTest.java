@@ -6,5 +6,6 @@ public class MancalaTest {
         MancalaController controller = new MancalaController(model);
         MancalaView view = new MancalaView(model, controller);
         model.addChangeListener(view);
+        controller.setView(view);
     }
 }
