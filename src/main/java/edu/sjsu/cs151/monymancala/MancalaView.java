@@ -301,7 +301,7 @@ public class MancalaView extends JFrame implements ChangeListener {
      *
      * @param aPit the pit component that was selected
      */
-    public void selectPit(PitComponent aPit) {
+    public void highlightPit(PitComponent aPit) {
         // Deselect the previously selected panel
         if (selectedPit != null) {
             selectedPit.setBorder(BorderFactory.createEmptyBorder());                   // Reset border

@@ -171,7 +171,7 @@ public class MancalaController {
                 if(pitComponent.getCorrespondingPit().getPlayer() != model.getCurrentPlayer()) {
                     return;
                 }
-                view.selectPit(pitComponent);
+                view.highlightPit(pitComponent);
                 if (moveCounter == 0) {
                     if(model.makeMove(pitComponent.getCorrespondingPit().getIndex())) {
                         canEndMove = true;
