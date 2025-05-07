@@ -51,6 +51,7 @@ public class MancalaController {
              */
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println("clicked");
                 if (canEndMove) {
                     endTurn();
                 }
@@ -97,8 +98,8 @@ public class MancalaController {
      * Also checks if the game is over before switching turns.
      */
     public void endTurn() {
+        checkGameOver();
         if (model.getPit(model.getSelectedIndex()).getMancala() != model.getCurrentPlayer()) {
-            checkGameOver();
             undoCount = 0;
             moveCounter = 0;
             canEndMove = false;
