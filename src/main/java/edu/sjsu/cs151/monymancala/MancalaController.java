@@ -51,7 +51,6 @@ public class MancalaController {
              */
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("clicked");
                 if (canEndMove) {
                     endTurn();
                 }
