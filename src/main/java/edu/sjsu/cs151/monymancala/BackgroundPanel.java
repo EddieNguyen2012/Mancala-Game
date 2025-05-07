@@ -8,7 +8,7 @@ public class BackgroundPanel extends JPanel {
     private BoardStyle style;
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      * Constructs a BackgroundPanel with the specified BoardStyle.
      *
      * @param style the BoardStyle used to draw the background
@@ -19,7 +19,7 @@ public class BackgroundPanel extends JPanel {
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      * Overrides the paintComponent method to draw the custom background
      * using the BoardStyle's drawBackground method.
      *

@@ -13,7 +13,7 @@ public class ModernStyle implements BoardStyle{
     private Color labelColor;
 
     /**
-     * Author: Marco Lopez, Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Constructing the BoardStyle object
      */
@@ -26,7 +26,7 @@ public class ModernStyle implements BoardStyle{
     }
 
     /**
-     * Author: Marco Lopez, Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Draws a pit on the board using the specified graphics context and dimensions.
      *
@@ -42,7 +42,7 @@ public class ModernStyle implements BoardStyle{
     }
 
     /**
-     * Author: Marco Lopez, Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Draws the Mancala store on the board using the specified graphics context and dimensions.
      *
@@ -58,7 +58,7 @@ public class ModernStyle implements BoardStyle{
     }
 
     /**
-     * Author: Marco Lopez, Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Draws a stone at the specified location with the given size.
      *
@@ -73,7 +73,7 @@ public class ModernStyle implements BoardStyle{
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Draws the game board background using the specified graphics context and dimensions.
      *
@@ -89,7 +89,7 @@ public class ModernStyle implements BoardStyle{
     }
 
     /**
-     * Author: Brandon Sanchez
+     * Author: Marco Lopez
      *
      * Returns the color used for labels in this board style.
      *
