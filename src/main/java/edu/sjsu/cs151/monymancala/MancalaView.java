@@ -66,7 +66,7 @@ public class MancalaView extends JFrame implements ChangeListener {
 
 
     /**
-     * Author: Brandon Sanchez, Marco Lopez, Danny Nguyen
+     * Author: Brandon Sanchez, Marco Lopez, Danny Huynh
      *
      * Initializes and arranges the components of the main game board including
      * center, side panels, and control buttons.
@@ -111,7 +111,7 @@ public class MancalaView extends JFrame implements ChangeListener {
 
 
     /**
-     * Author: Brandon Sanchez, Marco Lopez, Danny Nguyen
+     * Author: Brandon Sanchez, Marco Lopez, Danny Huynh
      *
      * Displays the welcome window with style selection buttons and background image.
      */

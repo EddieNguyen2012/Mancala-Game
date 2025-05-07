@@ -29,7 +29,7 @@ public class MancalaController {
     }
 
     /**
-     * Author: Eddie Nquyen, Marco Lopez, Brandon Sanchez, Danny Nguyen
+     * Author: Eddie Nquyen, Marco Lopez, Brandon Sanchez, Danny Huynh
      * Sets the view for the controller and initializes button and pit interactions.
      * Attaches mouse listeners to the "End Turn" and "Undo" buttons and sets up the pit components.
      *
@@ -206,7 +206,7 @@ public class MancalaController {
         };
     }
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Checks if the game is over by evaluating the pits of both players.
      * If the game is over, it calls the method to determine and display the winner.
@@ -218,7 +218,7 @@ public class MancalaController {
     }
 
     /**
-     * Author: Danny Nguyen, Eddie Nguyen
+     * Author: Danny Huynh, Eddie Nguyen
      *
      * Determines if the game is over by checking if one side of the board is empty.
      *
@@ -242,7 +242,7 @@ public class MancalaController {
         return playerAstats || playerBstats;
     }
     /**
-     * Author: Danny Nguyen, Eddie Nguyen
+     * Author: Danny Huynh, Eddie Nguyen
      *
      * Calculates the final scores by adding up the stones in each player's pits and mancala.
      * Determines the winner and displays the result using the view.

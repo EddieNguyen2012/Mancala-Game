@@ -13,7 +13,7 @@ public class OceanStyle implements BoardStyle{
     private Color labelColor;
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Constructs an OceanStyle board style, loading the ocean-themed images for
      * the board, pits, mancala store, and stones. Sets the label color to white.
@@ -27,7 +27,7 @@ public class OceanStyle implements BoardStyle{
     }
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Draws a pit using the ocean-themed pit image.
      *
@@ -43,7 +43,7 @@ public class OceanStyle implements BoardStyle{
     }
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Draws the Mancala store using the ocean-themed mancala image.
      *
@@ -59,7 +59,7 @@ public class OceanStyle implements BoardStyle{
     }
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Draws a sand dollar stone using the ocean-themed stone image.
      *
@@ -74,7 +74,7 @@ public class OceanStyle implements BoardStyle{
     }
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Draws the ocean-themed game board background.
      *
@@ -90,7 +90,7 @@ public class OceanStyle implements BoardStyle{
     }
 
     /**
-     * Author: Danny Nguyen
+     * Author: Danny Huynh
      *
      * Returns the color used for text labels in this board style.
      *
